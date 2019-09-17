@@ -13,8 +13,17 @@ vec2 distort(vec2 uv)
 	// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	// HANDLE THE WATER WAVE DISTORTION HERE (you may want to try sin/cos)
 	// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-	vec2 coord = uv.xy;
+	// vec2 coord = uv.xy;
+    float pi = 3.14159265;
+    float amplitude_x = 0.02;
+    float amplitude_y = 0.01;
+    float frequency_x = 3 * pi;
+    float frequency_y = 3 * pi;
+    float shift_x = 20 * time / 180;
+    float shift_y = 15 * time / 180;
+    float x = cos(frequency_x * uv.y + shift_x) * amplitude_x;
+    float y = sin(frequency_y * uv.x + shift_y) * amplitude_y;
+    vec2 coord = uv.xy + vec2 (x, y);
     return coord;
 }
 
@@ -25,6 +34,7 @@ vec4 color_shift(vec4 in_color)
 	// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 	vec4 color = in_color;
+    color *= vec4(0.67, 0.84, 0.9, 1);
 	return color;
 }
 
