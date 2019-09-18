@@ -34,7 +34,8 @@ vec4 color_shift(vec4 in_color)
 	// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 	vec4 color = in_color;
-    color *= vec4(0.67, 0.84, 0.9, 1);
+    float intensity = 0.4;
+    color = (1 - intensity) * color + intensity * vec4(0, 0, 1, 1);
 	return color;
 }
 
