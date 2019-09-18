@@ -13,7 +13,6 @@
 // using std::cout;
 // using std::endl;
 
-
 // Same as static in c, local to compilation unit
 namespace
 {
@@ -426,6 +425,11 @@ void World::on_key(GLFWwindow *, int key, int, int action, int mod)
         m_fish.clear();
         m_water.reset_salmon_dead_time();
         m_current_speed = 1.f;
+    }
+
+    if (action == GLFW_RELEASE && key == GLFW_KEY_X)
+    {
+        m_salmon.advanced_mode();
     }
 
     if (action == GLFW_PRESS && (key == GLFW_KEY_UP || key == GLFW_KEY_W))

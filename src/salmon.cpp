@@ -9,6 +9,10 @@
 #include <string>
 #include <algorithm>
 
+// math
+#include <math.h>
+#define PI 3.14159265
+
 // Testing
 #include <iostream>
 #include <iomanip>
@@ -82,8 +86,16 @@ bool Salmon::init()
     motion.position = {50.f, 100.f};
     motion.radians = 0.f;
     motion.speed = 200.f;
+    advancedMode = false;
 
-    physics.scale = {-35.f, 35.f};
+    if (advancedMode)
+    {
+        physics.scale = {-10.f, 10.f};
+    }
+    else
+    {
+        physics.scale = {-35.f, 35.f};
+    }
 
     m_is_alive = true;
     m_light_up_countdown_ms = -1.f;
@@ -113,14 +125,28 @@ void Salmon::update(float ms)
         // UPDATE SALMON POSITION HERE BASED ON KEY PRESSED (World::on_key())
         // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         set_rotation(rotation_radians);
-        if (move_up)
-            move({0.f, -step});
-        if (move_down)
-            move({0.f, step});
-        if (move_left)
-            move({-step, 0.f});
-        if (move_right)
-            move({step, 0.f});
+        if (advancedMode)
+        {
+            if (move_up)
+                move({step * tan(rotation_radians), -step});
+            if (move_down)
+                move({-step * tan(rotation_radians), step});
+            if (move_left)
+                move({-step, -step * tan(rotation_radians)});
+            if (move_right)
+                move({step, step * tan(rotation_radians)});
+        }
+        else
+        {
+            if (move_up)
+                move({0.f, -step});
+            if (move_down)
+                move({0.f, step});
+            if (move_left)
+                move({-step, 0.f});
+            if (move_right)
+                move({step, 0.f});
+        }
     }
     else
     {
@@ -285,5 +311,28 @@ void Salmon::kill()
 // Called when the salmon collides with a fish
 void Salmon::light_up()
 {
+    if (advancedMode)
+    {
+        increase_size();
+    }
     m_light_up_countdown_ms = 1500.f;
+}
+
+void Salmon::increase_size()
+{
+    physics.scale.x -= 5.f;
+    physics.scale.y += 5.f;
+}
+
+void Salmon::advanced_mode()
+{
+    advancedMode = !advancedMode;
+    if (advancedMode)
+    {
+        physics.scale = {-10.f, 10.f};
+    }
+    else
+    {
+        physics.scale = {-35.f, 35.f};
+    }
 }

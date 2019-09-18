@@ -44,6 +44,12 @@ public:
     // Called when the salmon collides with a fish, starts lighting up the salmon
     void light_up();
 
+    // Called when salmon eats a fish
+    void increase_size();
+
+    // Called when pressed X to toggle advanced mode
+    void advanced_mode();
+
     // booleans determine salmon movement
     bool move_up;
     bool move_down;
@@ -52,6 +58,9 @@ public:
 
     // rotation radians
     float rotation_radians;
+
+    // boolean toggle modes
+    bool advancedMode;
 
 private:
     float m_light_up_countdown_ms; // Used to keep track for how long the salmon should be lit up
