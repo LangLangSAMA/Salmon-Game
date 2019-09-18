@@ -16,7 +16,6 @@
 // Testing
 #include <iostream>
 #include <iomanip>
-
 using std::cout;
 using std::endl;
 
@@ -126,17 +125,15 @@ void Salmon::update(float ms)
         // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         set_rotation(rotation_radians);
         if (advancedMode)
+        // advanced mode, fish moving along the direciton it is aligned with
         {
             if (move_up)
-                move({step * tan(rotation_radians), -step});
+                move({1.5f * step * cos(rotation_radians), 1.5f * step * sin(rotation_radians)});
             if (move_down)
-                move({-step * tan(rotation_radians), step});
-            if (move_left)
-                move({-step, -step * tan(rotation_radians)});
-            if (move_right)
-                move({step, step * tan(rotation_radians)});
+                move({1.5f * -step * cos(rotation_radians), 1.5f * -step * sin(rotation_radians)});
         }
         else
+        // simple mode
         {
             if (move_up)
                 move({0.f, -step});
@@ -312,18 +309,21 @@ void Salmon::kill()
 void Salmon::light_up()
 {
     if (advancedMode)
+    // advanced mode: increase size after eating a fish
     {
         increase_size();
     }
     m_light_up_countdown_ms = 1500.f;
 }
 
+// Increase the Salmon size 
 void Salmon::increase_size()
 {
     physics.scale.x -= 5.f;
     physics.scale.y += 5.f;
 }
 
+// Toggle advanced mode, reset physical size
 void Salmon::advanced_mode()
 {
     advancedMode = !advancedMode;
