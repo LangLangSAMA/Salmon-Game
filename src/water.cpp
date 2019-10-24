@@ -45,6 +45,8 @@ bool Water::init()
     if (!effect.load_from_file(shader_path("water.vs.glsl"), shader_path("water.fs.glsl")))
         return false;
 
+    debug = false;
+
     return true;
 }
 
@@ -88,9 +90,12 @@ void Water::draw(const mat3 &projection)
     GLuint screen_text_uloc = glGetUniformLocation(effect.program, "screen_texture");
     GLuint time_uloc = glGetUniformLocation(effect.program, "time");
     GLuint dead_timer_uloc = glGetUniformLocation(effect.program, "dead_timer");
+    GLuint debug_uloc = glGetUniformLocation(effect.program, "debug");
     glUniform1i(screen_text_uloc, 0);
     glUniform1f(time_uloc, (float)(glfwGetTime() * 10.0f));
     glUniform1f(dead_timer_uloc, (m_dead_time > 0) ? (float)((glfwGetTime() - m_dead_time) * 10.0f) : -1);
+    glUniform1f(debug_uloc, debug);
+
 
     // Draw the screen texture on the quad geometry
     // Setting vertices
@@ -104,3 +109,8 @@ void Water::draw(const mat3 &projection)
     glDrawArrays(GL_TRIANGLES, 0, 6); // 2*3 indices starting at 0 -> 2 triangles
     glDisableVertexAttribArray(0);
 }
+
+void Water::set_debug_mode(bool m_debug) {
+    debug = m_debug;
+}
+

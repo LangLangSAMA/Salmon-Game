@@ -3,6 +3,7 @@
 uniform sampler2D screen_texture;
 uniform float time;
 uniform float dead_timer;
+uniform bool debug;
 
 in vec2 uv;
 
@@ -13,17 +14,19 @@ vec2 distort(vec2 uv)
 	// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	// HANDLE THE WATER WAVE DISTORTION HERE (you may want to try sin/cos)
 	// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-	// vec2 coord = uv.xy;
-    float pi = 3.14159265;
-    float amplitude_x = 0.02;
-    float amplitude_y = 0.01;
-    float frequency_x = 3 * pi;
-    float frequency_y = 3 * pi;
-    float shift_x = 20 * time / 180;
-    float shift_y = 15 * time / 180;
-    float x = cos(frequency_x * uv.y + shift_x) * amplitude_x;
-    float y = sin(frequency_y * uv.x + shift_y) * amplitude_y;
-    vec2 coord = uv.xy + vec2 (x, y);
+	vec2 coord = uv.xy;
+    if (!debug) {
+        float pi = 3.14159265;
+        float amplitude_x = 0.02;
+        float amplitude_y = 0.01;
+        float frequency_x = 3 * pi;
+        float frequency_y = 3 * pi;
+        float shift_x = 20 * time / 180;
+        float shift_y = 15 * time / 180;
+        float x = cos(frequency_x * uv.y + shift_x) * amplitude_x;
+        float y = sin(frequency_y * uv.x + shift_y) * amplitude_y;
+        coord = uv.xy + vec2 (x, y);
+    }
     return coord;
 }
 
@@ -32,10 +35,11 @@ vec4 color_shift(vec4 in_color)
 	// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	// HANDLE THE COLOR SHIFTING HERE (you may want to make it blue-ish)
 	// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
 	vec4 color = in_color;
-    float intensity = 0.4;
-    color = (1 - intensity) * color + intensity * vec4(0, 0, 1, 1);
+    if (!debug) {
+        float intensity = 0.4;
+        color = (1 - intensity) * color + intensity * vec4(0, 0, 1, 1);
+    }
 	return color;
 }
 

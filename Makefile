@@ -123,6 +123,33 @@ salmon/fast:
 	$(MAKE) -f CMakeFiles/salmon.dir/build.make CMakeFiles/salmon.dir/build
 .PHONY : salmon/fast
 
+src/border.o: src/border.cpp.o
+
+.PHONY : src/border.o
+
+# target to build an object file
+src/border.cpp.o:
+	$(MAKE) -f CMakeFiles/salmon.dir/build.make CMakeFiles/salmon.dir/src/border.cpp.o
+.PHONY : src/border.cpp.o
+
+src/border.i: src/border.cpp.i
+
+.PHONY : src/border.i
+
+# target to preprocess a source file
+src/border.cpp.i:
+	$(MAKE) -f CMakeFiles/salmon.dir/build.make CMakeFiles/salmon.dir/src/border.cpp.i
+.PHONY : src/border.cpp.i
+
+src/border.s: src/border.cpp.s
+
+.PHONY : src/border.s
+
+# target to generate assembly for a file
+src/border.cpp.s:
+	$(MAKE) -f CMakeFiles/salmon.dir/build.make CMakeFiles/salmon.dir/src/border.cpp.s
+.PHONY : src/border.cpp.s
+
 src/common.o: src/common.cpp.o
 
 .PHONY : src/common.o
@@ -230,6 +257,33 @@ src/pebbles.s: src/pebbles.cpp.s
 src/pebbles.cpp.s:
 	$(MAKE) -f CMakeFiles/salmon.dir/build.make CMakeFiles/salmon.dir/src/pebbles.cpp.s
 .PHONY : src/pebbles.cpp.s
+
+src/rectangle.o: src/rectangle.cpp.o
+
+.PHONY : src/rectangle.o
+
+# target to build an object file
+src/rectangle.cpp.o:
+	$(MAKE) -f CMakeFiles/salmon.dir/build.make CMakeFiles/salmon.dir/src/rectangle.cpp.o
+.PHONY : src/rectangle.cpp.o
+
+src/rectangle.i: src/rectangle.cpp.i
+
+.PHONY : src/rectangle.i
+
+# target to preprocess a source file
+src/rectangle.cpp.i:
+	$(MAKE) -f CMakeFiles/salmon.dir/build.make CMakeFiles/salmon.dir/src/rectangle.cpp.i
+.PHONY : src/rectangle.cpp.i
+
+src/rectangle.s: src/rectangle.cpp.s
+
+.PHONY : src/rectangle.s
+
+# target to generate assembly for a file
+src/rectangle.cpp.s:
+	$(MAKE) -f CMakeFiles/salmon.dir/build.make CMakeFiles/salmon.dir/src/rectangle.cpp.s
+.PHONY : src/rectangle.cpp.s
 
 src/salmon.o: src/salmon.cpp.o
 
@@ -348,6 +402,9 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... salmon"
+	@echo "... src/border.o"
+	@echo "... src/border.i"
+	@echo "... src/border.s"
 	@echo "... src/common.o"
 	@echo "... src/common.i"
 	@echo "... src/common.s"
@@ -360,6 +417,9 @@ help:
 	@echo "... src/pebbles.o"
 	@echo "... src/pebbles.i"
 	@echo "... src/pebbles.s"
+	@echo "... src/rectangle.o"
+	@echo "... src/rectangle.i"
+	@echo "... src/rectangle.s"
 	@echo "... src/salmon.o"
 	@echo "... src/salmon.i"
 	@echo "... src/salmon.s"

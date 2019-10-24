@@ -128,9 +128,11 @@ bool World::init(vec2 screen)
 
     fprintf(stderr, "Loaded music\n");
 
+    m_debug = false;
+
     m_current_speed = 1.f;
 
-    return m_salmon.init() && m_water.init() && m_pebbles_emitter.init();
+    return m_salmon.init() && m_water.init() && m_pebbles_emitter.init() && m_border.init() && m_rectangle.init();
 }
 
 // Releases all the associated resources
@@ -155,6 +157,8 @@ void World::destroy()
         fish.destroy();
     m_turtles.clear();
     m_fish.clear();
+    m_border.destroy();
+    m_rectangle.destroy();
     glfwDestroyWindow(m_window);
 }
 
@@ -216,6 +220,7 @@ bool World::update(float elapsed_ms)
         turtle.update(elapsed_ms * m_current_speed / 10);
     for (auto &fish : m_fish)
         fish.update(elapsed_ms * m_current_speed / 10);
+    m_rectangle.update(m_salmon.get_position());
 
     // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     // HANDLE PEBBLE SPAWN/UPDATES HERE
@@ -345,6 +350,10 @@ void World::draw()
     // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
     // Drawing entities
+    if (m_debug) {
+        m_rectangle.draw(projection_2D);
+        m_border.draw(projection_2D);
+    }
     for (auto &turtle : m_turtles)
         turtle.draw(projection_2D);
     for (auto &fish : m_fish)
@@ -442,6 +451,13 @@ void World::on_key(GLFWwindow *, int key, int, int action, int mod)
         m_salmon.move_left = true;
     if (action == GLFW_PRESS && (key == GLFW_KEY_RIGHT || key == GLFW_KEY_D))
         m_salmon.move_right = true;
+
+    if (action == GLFW_PRESS && (key == GLFW_KEY_RIGHT || key == GLFW_KEY_C))
+    {
+        m_debug = !m_debug;
+        m_water.set_debug_mode(m_debug);
+    }
+
 
     if (action == GLFW_RELEASE && (key == GLFW_KEY_UP || key == GLFW_KEY_W))
         m_salmon.move_up = false;

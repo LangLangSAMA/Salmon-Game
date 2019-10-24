@@ -4,10 +4,12 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
+  "/Users/LangLang/CPSC427/CPSC427-A1/src/border.cpp" "/Users/LangLang/CPSC427/CPSC427-A1/CMakeFiles/salmon.dir/src/border.cpp.o"
   "/Users/LangLang/CPSC427/CPSC427-A1/src/common.cpp" "/Users/LangLang/CPSC427/CPSC427-A1/CMakeFiles/salmon.dir/src/common.cpp.o"
   "/Users/LangLang/CPSC427/CPSC427-A1/src/fish.cpp" "/Users/LangLang/CPSC427/CPSC427-A1/CMakeFiles/salmon.dir/src/fish.cpp.o"
   "/Users/LangLang/CPSC427/CPSC427-A1/src/main.cpp" "/Users/LangLang/CPSC427/CPSC427-A1/CMakeFiles/salmon.dir/src/main.cpp.o"
   "/Users/LangLang/CPSC427/CPSC427-A1/src/pebbles.cpp" "/Users/LangLang/CPSC427/CPSC427-A1/CMakeFiles/salmon.dir/src/pebbles.cpp.o"
+  "/Users/LangLang/CPSC427/CPSC427-A1/src/rectangle.cpp" "/Users/LangLang/CPSC427/CPSC427-A1/CMakeFiles/salmon.dir/src/rectangle.cpp.o"
   "/Users/LangLang/CPSC427/CPSC427-A1/src/salmon.cpp" "/Users/LangLang/CPSC427/CPSC427-A1/CMakeFiles/salmon.dir/src/salmon.cpp.o"
   "/Users/LangLang/CPSC427/CPSC427-A1/src/turtle.cpp" "/Users/LangLang/CPSC427/CPSC427-A1/CMakeFiles/salmon.dir/src/turtle.cpp.o"
   "/Users/LangLang/CPSC427/CPSC427-A1/src/water.cpp" "/Users/LangLang/CPSC427/CPSC427-A1/CMakeFiles/salmon.dir/src/water.cpp.o"

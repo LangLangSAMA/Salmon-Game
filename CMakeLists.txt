@@ -38,7 +38,9 @@ set(SOURCE_FILES
 	src/turtle.cpp
 	src/water.cpp
 	src/world.cpp
-  src/pebbles.cpp
+    src/pebbles.cpp
+    src/rectangle.cpp
+    src/border.cpp
 
     src/project_path.hpp
 	src/common.hpp
@@ -47,7 +49,9 @@ set(SOURCE_FILES
 	src/turtle.hpp
 	src/water.hpp
 	src/world.hpp
-  src/pebbles.hpp
+    src/pebbles.hpp
+    src/rectangle.hpp
+    src/border.hpp
 	)
 
 if (IS_OS_MAC)
