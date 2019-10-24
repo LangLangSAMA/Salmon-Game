@@ -6,6 +6,15 @@
 class Turtle;
 class Fish;
 
+enum Boundary
+{
+    TOP,
+    BOTTOM,
+    LEFT,
+    RIGHT,
+    EMPTY
+};
+
 class Salmon : public Entity
 {
 public:
@@ -25,7 +34,8 @@ public:
     // Collision routines for turtles and fish
     bool collides_with(const Turtle &turtle);
     bool collides_with(const Fish &fish);
-    bool collides_with_wall();
+    void collides_with_wall();
+    Boundary collision_check();
 
     // Returns the current salmon position
     vec2 get_position() const;
@@ -56,8 +66,6 @@ public:
     bool move_down;
     bool move_left;
     bool move_right;
-
-    bool is_collided;
 
     // boolean toggle modes
     bool advancedMode;

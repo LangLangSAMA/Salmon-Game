@@ -99,8 +99,6 @@ bool Salmon::init()
     m_is_alive = true;
     m_light_up_countdown_ms = -1.f;
 
-    is_collided = true;
-
     return true;
 }
 
@@ -147,27 +145,12 @@ void Salmon::update(float ms)
 
             if (move_up)
             {
-                if (is_collided)
-                {
-                    move({step * cos(motion.radians) + 50 * cos(motion.radians), step * sin(motion.radians) + 50 * sin(motion.radians)});
-                    is_collided = false;
-                }
-                else
-                {
-                    move({step * cos(motion.radians), step * sin(motion.radians)});
-                }
+
+                move({step * cos(motion.radians), step * sin(motion.radians)});
             }
             if (move_down)
             {
-                if (is_collided)
-                {
-                    move({step * cos(motion.radians) - 50 * cos(motion.radians), step * sin(motion.radians) - 50 * sin(motion.radians)});
-                    is_collided = false;
-                }
-                else
-                {
-                    move({-step * cos(motion.radians), -step * sin(motion.radians)});
-                }
+                move({-step * cos(motion.radians), -step * sin(motion.radians)});
             }
         }
     }
@@ -265,13 +248,8 @@ void Salmon::draw(const mat3 &projection)
     glDrawElements(GL_TRIANGLES, num_indices, GL_UNSIGNED_SHORT, nullptr);
 }
 
-bool Salmon::collides_with_wall()
+Boundary Salmon::collision_check()
 {
-    if (is_collided)
-    {
-        return false;
-    }
-
     vec2 top;
     vec2 bottom;
     vec2 left;
@@ -310,14 +288,40 @@ bool Salmon::collides_with_wall()
         }
     }
 
-    if (y_top < 50 || y_bottom > 750)
+    Boundary boundary = EMPTY;
+
+    if (y_top < 50)
     {
-        is_collided = true;
-        motion.radians = -motion.radians;
+        boundary = TOP;
     }
-    if (x_left < 50 || x_right > 1150)
+    else if (y_bottom > 750)
     {
-        is_collided = true;
+        boundary = BOTTOM;
+    }
+    else if (x_left < 50)
+    {
+        boundary = LEFT;
+    }
+    else if (x_right > 1150)
+    {
+        boundary = RIGHT;
+    }
+
+    return boundary;
+}
+
+void Salmon::collides_with_wall()
+{
+    Boundary boundary = collision_check();
+
+    switch (boundary)
+    {
+    case TOP:
+    case BOTTOM:
+        motion.radians = -motion.radians;
+        break;
+    case LEFT:
+    case RIGHT:
         if (motion.radians < 0)
         {
             motion.radians = -motion.radians - PI;
@@ -325,6 +329,30 @@ bool Salmon::collides_with_wall()
         else
         {
             motion.radians = -motion.radians + PI;
+        }
+        break;
+    default:
+        break;
+    }
+
+    if (move_up)
+    {
+        switch (boundary)
+        {
+        case TOP:
+            move({0.f, 50.f});
+            break;
+        case BOTTOM:
+            move({0.f, -50.f});
+            break;
+        case LEFT:
+            move({50.f, 0.f});
+            break;
+        case RIGHT:
+            move({-50.f, 0.f});
+            break;
+        default:
+            break;
         }
     }
 }
