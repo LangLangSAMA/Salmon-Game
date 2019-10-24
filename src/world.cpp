@@ -165,6 +165,8 @@ bool World::update(float elapsed_ms)
     glfwGetFramebufferSize(m_window, &w, &h);
     vec2 screen = {(float)w / m_screen_scale, (float)h / m_screen_scale};
 
+    m_salmon.collides_with_wall();
+
     // Checking Salmon - Turtle collisions
     for (const auto &turtle : m_turtles)
     {
@@ -211,9 +213,9 @@ bool World::update(float elapsed_ms)
     // rather than by their class.
     m_salmon.update(elapsed_ms);
     for (auto &turtle : m_turtles)
-        turtle.update(elapsed_ms * m_current_speed);
+        turtle.update(elapsed_ms * m_current_speed / 10);
     for (auto &fish : m_fish)
-        fish.update(elapsed_ms * m_current_speed);
+        fish.update(elapsed_ms * m_current_speed / 10);
 
     // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     // HANDLE PEBBLE SPAWN/UPDATES HERE
@@ -466,6 +468,4 @@ void World::on_mouse_move(GLFWwindow *window, double xpos, double ypos)
     // xpos and ypos are relative to the top-left of the window, the salmon's
     // default facing direction is (1, 0)
     // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    vec2 m_salmon_position = m_salmon.get_position();
-    m_salmon.rotation_radians = atan2(ypos - m_salmon_position.y, xpos - m_salmon_position.x);
 }

@@ -1,0 +1,3 @@
+/Users/LangLang/CPSC427/CPSC427-A1/CMakeFiles/rebuild_cache.dir
+/Users/LangLang/CPSC427/CPSC427-A1/CMakeFiles/edit_cache.dir
+/Users/LangLang/CPSC427/CPSC427-A1/CMakeFiles/salmon.dir

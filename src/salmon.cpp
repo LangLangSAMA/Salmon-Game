@@ -82,9 +82,9 @@ bool Salmon::init()
         return false;
 
     // Setting initial values
-    motion.position = {50.f, 100.f};
+    motion.position = {200.f, 400.f};
     motion.radians = 0.f;
-    motion.speed = 200.f;
+    motion.speed = 250.f;
     advancedMode = false;
 
     if (advancedMode)
@@ -98,6 +98,8 @@ bool Salmon::init()
 
     m_is_alive = true;
     m_light_up_countdown_ms = -1.f;
+
+    is_collided = true;
 
     return true;
 }
@@ -123,32 +125,56 @@ void Salmon::update(float ms)
         // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         // UPDATE SALMON POSITION HERE BASED ON KEY PRESSED (World::on_key())
         // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        set_rotation(rotation_radians);
         if (advancedMode)
         // advanced mode, fish moving along the direciton it is aligned with
         {
+            if (move_left)
+                motion.radians -= 0.1f;
+            if (move_right)
+                motion.radians += 0.1f;
             if (move_up)
-                move({1.5f * step * cos(rotation_radians), 1.5f * step * sin(rotation_radians)});
+                move({step * cos(motion.radians), step * sin(motion.radians)});
             if (move_down)
-                move({1.5f * -step * cos(rotation_radians), 1.5f * -step * sin(rotation_radians)});
+                move({-step * cos(motion.radians), -step * sin(motion.radians)});
         }
         else
         // simple mode
         {
-            if (move_up)
-                move({0.f, -step});
-            if (move_down)
-                move({0.f, step});
             if (move_left)
-                move({-step, 0.f});
+                motion.radians -= 0.1f;
             if (move_right)
-                move({step, 0.f});
+                motion.radians += 0.1f;
+
+            if (move_up)
+            {
+                if (is_collided)
+                {
+                    move({step * cos(motion.radians) + 50 * cos(motion.radians), step * sin(motion.radians) + 50 * sin(motion.radians)});
+                    is_collided = false;
+                }
+                else
+                {
+                    move({step * cos(motion.radians), step * sin(motion.radians)});
+                }
+            }
+            if (move_down)
+            {
+                if (is_collided)
+                {
+                    move({step * cos(motion.radians) - 50 * cos(motion.radians), step * sin(motion.radians) - 50 * sin(motion.radians)});
+                    is_collided = false;
+                }
+                else
+                {
+                    move({-step * cos(motion.radians), -step * sin(motion.radians)});
+                }
+            }
         }
     }
     else
     {
         // If dead we make it face upwards and sink deep down
-        set_rotation(3.1415f);
+        set_rotation(PI);
         move({0.f, step});
     }
 
@@ -239,6 +265,70 @@ void Salmon::draw(const mat3 &projection)
     glDrawElements(GL_TRIANGLES, num_indices, GL_UNSIGNED_SHORT, nullptr);
 }
 
+bool Salmon::collides_with_wall()
+{
+    if (is_collided)
+    {
+        return false;
+    }
+
+    vec2 top;
+    vec2 bottom;
+    vec2 left;
+    vec2 right;
+    float x_left = 99999.f;
+    float x_right = -99999.f;
+    float y_top = 99999.f;
+    float y_bottom = -99999.f;
+    for (size_t i = 0; i < m_vertices.size(); i++)
+    {
+        Vertex vertex;
+        vertex = m_vertices[i];
+        vec3 point = {vertex.position.x, vertex.position.y, 1};
+        vec3 result = mul(transform.out, point);
+        float x = result.x;
+        float y = result.y;
+        if (x < x_left)
+        {
+            x_left = x;
+            left = {x, y};
+        }
+        if (x > x_right)
+        {
+            x_right = x;
+            right = {x, y};
+        }
+        if (y < y_top)
+        {
+            y_top = y;
+            top = {x, y};
+        }
+        if (y > y_bottom)
+        {
+            y_bottom = y;
+            bottom = {x, y};
+        }
+    }
+
+    if (y_top < 50 || y_bottom > 750)
+    {
+        is_collided = true;
+        motion.radians = -motion.radians;
+    }
+    if (x_left < 50 || x_right > 1150)
+    {
+        is_collided = true;
+        if (motion.radians < 0)
+        {
+            motion.radians = -motion.radians - PI;
+        }
+        else
+        {
+            motion.radians = -motion.radians + PI;
+        }
+    }
+}
+
 // Simple bounding box collision check
 // This is a SUPER APPROXIMATE check that puts a circle around the bounding boxes and sees
 // if the center point of either object is inside the other's bounding-box-circle. You don't
@@ -316,7 +406,7 @@ void Salmon::light_up()
     m_light_up_countdown_ms = 1500.f;
 }
 
-// Increase the Salmon size 
+// Increase the Salmon size
 void Salmon::increase_size()
 {
     physics.scale.x -= 5.f;

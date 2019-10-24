@@ -25,6 +25,7 @@ public:
     // Collision routines for turtles and fish
     bool collides_with(const Turtle &turtle);
     bool collides_with(const Fish &fish);
+    bool collides_with_wall();
 
     // Returns the current salmon position
     vec2 get_position() const;
@@ -56,8 +57,7 @@ public:
     bool move_left;
     bool move_right;
 
-    // rotation radians
-    float rotation_radians;
+    bool is_collided;
 
     // boolean toggle modes
     bool advancedMode;

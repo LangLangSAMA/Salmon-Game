@@ -2,4 +2,4 @@
 
 // Please don't change the content of this header
 
-#define PROJECT_SOURCE_DIR "/Users/LangLang/CPSC427/template/"
+#define PROJECT_SOURCE_DIR "/Users/LangLang/CPSC427/CPSC427-A1/"
