@@ -168,26 +168,30 @@ void World::destroy()
 // Update our game world
 bool World::update(float elapsed_ms)
 {
+    if (m_collision_duration >= 0.f)
+    {
+        m_collision_duration -= elapsed_ms;
+        return false;
+    }
+
     int w, h;
     glfwGetFramebufferSize(m_window, &w, &h);
     vec2 screen = {(float)w / m_screen_scale, (float)h / m_screen_scale};
 
     if (m_debug)
     {
-        if (!m_is_collided && m_salmon.collides_with_wall())
-        {
-            m_collision_duration = 500.f;
-            m_is_collided = true;
-        }
-
-        if (m_collision_duration >= 0.f)
-        {
-            m_collision_duration -= elapsed_ms;
-        }
-        else
+        if (m_is_collided)
         {
             m_salmon.reflect();
             m_is_collided = false;
+        }
+        else
+        {
+            if (m_salmon.collides_with_wall())
+            {
+                m_collision_duration = 500.f;
+                m_is_collided = true;
+            }
         }
     }
     else
@@ -244,19 +248,21 @@ bool World::update(float elapsed_ms)
     // faster based on current.
     // In a pure ECS engine we would classify entities by their bitmap tags during the update loop
     // rather than by their class.
-    if (!m_is_collided)
-    {
-        m_dot.update({-1.f, -1.f});
-        m_salmon.update(elapsed_ms);
-        for (auto &turtle : m_turtles)
-            turtle.update(elapsed_ms * m_current_speed / 10);
-        for (auto &fish : m_fish)
-            fish.update(elapsed_ms * m_current_speed / 10);
-    }
-    else
+    m_salmon.update(elapsed_ms);
+    for (auto &turtle : m_turtles)
+        turtle.update(elapsed_ms * m_current_speed / 10);
+    for (auto &fish : m_fish)
+        fish.update(elapsed_ms * m_current_speed / 10);
+
+    if (m_is_collided)
     {
         m_dot.update(m_salmon.get_collision_point());
     }
+    else
+    {
+        m_dot.update({-1.f, -1.f});
+    }
+
     m_rectangle.update(m_salmon.get_position());
 
     // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
