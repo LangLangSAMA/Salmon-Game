@@ -90,6 +90,11 @@ private:
     bool m_is_collided;
     float m_collision_duration;
 
+    float m_frequency;
+    float m_frequency_counter;
+
+    bool advanced_fish;
+
     // C++ rng
     std::default_random_engine m_rng;
     std::uniform_real_distribution<float> m_dist; // default 0..1

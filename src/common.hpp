@@ -22,6 +22,13 @@
 
 // Not much math is needed and there are already way too many libraries linked (:
 // If you want to do some overloads..
+
+enum dotType
+{
+    PATH,
+    DOT
+};
+
 struct vec2
 {
     float x, y;

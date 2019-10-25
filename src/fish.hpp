@@ -11,6 +11,9 @@ class Fish : public Entity
 
 private:
     std::vector<vec3> m_init_pos;
+    std::vector<vec2> path;
+
+    vec2 direction;
 
 public:
     // Creates all the associated render resources and default transform
@@ -21,7 +24,9 @@ public:
 
     // Update fish
     // ms represents the number of milliseconds elapsed from the previous update() call
-    void update(float ms, vec2 salmon_pos);
+    void update(float ms);
+
+    void update_path(vec2 salmon_pos);
 
     // Renders the fish
     // projection is the 2D orthographic projection matrix

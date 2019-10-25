@@ -66,6 +66,8 @@ bool Fish::init()
     // 1.0 would be as big as the original texture.
     physics.scale = {-0.4f, 0.4f};
 
+    direction = {1.0f, 0.0f};
+
     get_init_pos();
 
     return true;
@@ -89,7 +91,11 @@ void Fish::get_init_pos()
     float y = fish_texture.height / 2;
 
     m_init_pos.push_back({-x, 0, 1.f});
+    m_init_pos.push_back({-x / 2, -y, 1.f});
+    m_init_pos.push_back({-x / 2, y, 1.f});
     m_init_pos.push_back({0, y, 1.f});
+    m_init_pos.push_back({x / 2, -y, 1.f});
+    m_init_pos.push_back({x / 2, y, 1.f});
     m_init_pos.push_back({0, -y, 1.f});
     m_init_pos.push_back({x, 0, 1.f});
 }
@@ -114,12 +120,17 @@ vec2 Fish::get_close_pos(vec2 salmon_pos)
     return result;
 }
 
-void Fish::update(float ms, vec2 salmon_pos)
+void Fish::update(float ms)
 {
     // Move fish along -X based on how much time has passed, this is to (partially) avoid
     // having entities move at different speed based on the machine.
     float step = -1.0 * motion.speed * (ms / 1000);
 
+    motion.position = add(motion.position, mul(normalize(direction), step));
+}
+
+void Fish::update_path(vec2 salmon_pos)
+{
     // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     // HANDLE FISH AI HERE
     // DON'T WORRY ABOUT THIS UNTIL ASSIGNMENT 2
@@ -130,8 +141,6 @@ void Fish::update(float ms, vec2 salmon_pos)
     float x = pos_diff.x;
     float y = pos_diff.y;
 
-    // Circle
-    // if (sqrtf(dot(pos_diff, pos_diff)) < 175)
     // Square
     if (abs(x) < 150 && abs(y) < 150)
     {
@@ -139,21 +148,21 @@ void Fish::update(float ms, vec2 salmon_pos)
         {
             if (y >= 0)
             {
-                motion.position.y += step;
+                direction = {0.f, 1.f};
             }
             else
             {
-                motion.position.y -= step;
+                direction = {0.f, -1.f};
             }
         }
         else
         {
-            motion.position = add(motion.position, mul(normalize(pos_diff), step));
+            direction = pos_diff;
         }
     }
     else
     {
-        motion.position.x += step;
+        direction = {1.f, 0.f};
     }
 }
 

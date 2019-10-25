@@ -7,7 +7,7 @@ class Dot : public Entity
 {
 public:
     // Creates all the associated render resources and default transform
-    bool init();
+    bool init(int color = DOT);
 
     // Releases all associated resources
     void destroy();
@@ -18,6 +18,7 @@ public:
     void update(vec2 pos);
 
 private:
+    int m_type;
     std::vector<Vertex> m_vertices;
     std::vector<uint16_t> m_indices;
 };

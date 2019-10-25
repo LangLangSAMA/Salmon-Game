@@ -1,7 +1,7 @@
 // Header
 #include "dot.hpp"
 
-bool Dot::init()
+bool Dot::init(int type)
 {
     // The position corresponds to the center of the texture.
     float wr = 10;
@@ -42,10 +42,15 @@ bool Dot::init()
     if (!effect.load_from_file(shader_path("coloured.vs.glsl"), shader_path("coloured.fs.glsl")))
         return false;
 
-    motion.position = {-1.f, -1.f};
+    m_type = type;
+
+    motion.position = {0.f, 0.f};
     motion.radians = 0.f;
 
     physics.scale = {0.5f, 0.5f};
+
+    if (type == PATH)
+        physics.scale = {1.f, 1.f};
 
     return true;
 }
@@ -102,7 +107,14 @@ void Dot::draw(const mat3 &projection)
 
     // Setting uniform values to the currently bound program
     glUniformMatrix3fv(transform_uloc, 1, GL_FALSE, (float *)&transform.out);
+
     float color[] = {0.f, 0.f, 0.f};
+
+    if (m_type == PATH)
+    {
+        color[0] = 1.f;
+    }
+
     glUniform3fv(color_uloc, 1, color);
     glUniformMatrix3fv(projection_uloc, 1, GL_FALSE, (float *)&projection);
 

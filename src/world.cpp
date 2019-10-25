@@ -134,6 +134,10 @@ bool World::init(vec2 screen)
 
     m_collision_duration = 0.f;
 
+    m_frequency = 500.f;
+    m_frequency_counter = m_frequency;
+    advanced_fish = false;
+
     return m_salmon.init() && m_water.init() && m_pebbles_emitter.init() && m_border.init() && m_rectangle.init() && m_dot.init();
 }
 
@@ -251,8 +255,26 @@ bool World::update(float elapsed_ms)
     m_salmon.update(elapsed_ms);
     // for (auto &turtle : m_turtles)
     //     turtle.update(elapsed_ms * m_current_speed);
+
+    m_frequency_counter -= elapsed_ms;
+    if (m_frequency_counter < 0)
+    {
+        advanced_fish = true;
+    }
     for (auto &fish : m_fish)
-        fish.update(elapsed_ms * m_current_speed / 2, m_salmon.get_position());
+    {
+        if (advanced_fish)
+        {
+            fish.update_path(m_salmon.get_position());
+        }
+        fish.update(elapsed_ms * m_current_speed / 2);
+    }
+
+    if (advanced_fish)
+    {
+        m_frequency_counter = m_frequency;
+        advanced_fish = false;
+    }
 
     if (m_is_collided)
     {
@@ -521,6 +543,18 @@ void World::on_key(GLFWwindow *, int key, int, int action, int mod)
         m_current_speed -= 0.1f;
     if (action == GLFW_RELEASE && (mod & GLFW_MOD_SHIFT) && key == GLFW_KEY_PERIOD)
         m_current_speed += 0.1f;
+
+    if (action == GLFW_RELEASE && key == GLFW_KEY_N)
+    {
+        m_frequency -= 100.0f;
+    }
+
+    if (action == GLFW_RELEASE && key == GLFW_KEY_M)
+    {
+        m_frequency += 100.0f;
+    }
+
+    fprintf(stderr, "The current reaction time is %f\n", m_frequency);
 
     m_current_speed = fmax(0.f, m_current_speed);
 }
