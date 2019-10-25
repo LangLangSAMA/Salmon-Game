@@ -96,7 +96,6 @@ void Water::draw(const mat3 &projection)
     glUniform1f(dead_timer_uloc, (m_dead_time > 0) ? (float)((glfwGetTime() - m_dead_time) * 10.0f) : -1);
     glUniform1f(debug_uloc, debug);
 
-
     // Draw the screen texture on the quad geometry
     // Setting vertices
     glBindBuffer(GL_ARRAY_BUFFER, mesh.vbo);
@@ -110,7 +109,7 @@ void Water::draw(const mat3 &projection)
     glDisableVertexAttribArray(0);
 }
 
-void Water::set_debug_mode(bool m_debug) {
+void Water::set_debug_mode(bool m_debug)
+{
     debug = m_debug;
 }
-

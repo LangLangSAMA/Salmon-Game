@@ -362,19 +362,22 @@ void Salmon::collision_check()
 
 bool Salmon::collides_with_wall()
 {
-    collision_check();
-
     bool is_collided = false;
 
-    if (!collision_flag)
+    if (m_is_alive)
     {
-        collision_flag = true;
-        return false;
-    }
+        collision_check();
 
-    if (boundary != EMPTY)
-    {
-        is_collided = true;
+        if (!collision_flag)
+        {
+            collision_flag = true;
+            return false;
+        }
+
+        if (boundary != EMPTY)
+        {
+            is_collided = true;
+        }
     }
 
     return is_collided;

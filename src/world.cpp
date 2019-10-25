@@ -160,6 +160,7 @@ void World::destroy()
     m_turtles.clear();
     m_fish.clear();
     m_border.destroy();
+    m_dot.destroy();
     m_rectangle.destroy();
     glfwDestroyWindow(m_window);
 }
@@ -208,6 +209,8 @@ bool World::update(float elapsed_ms)
                 m_water.set_salmon_dead();
             }
             m_salmon.kill();
+            m_debug = false;
+            m_water.set_debug_mode(false);
             break;
         }
     }
@@ -462,7 +465,7 @@ void World::on_key(GLFWwindow *, int key, int, int action, int mod)
     // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
     // Resetting game
-    if (action == GLFW_RELEASE && key == GLFW_KEY_R)
+    if (action == GLFW_RELEASE && key == GLFW_KEY_R && !m_debug)
     {
         int w, h;
         glfwGetWindowSize(m_window, &w, &h);
@@ -478,6 +481,12 @@ void World::on_key(GLFWwindow *, int key, int, int action, int mod)
         m_current_speed = 1.f;
     }
 
+    if (action == GLFW_PRESS && key == GLFW_KEY_C)
+    {
+        m_debug = !m_debug;
+        m_water.set_debug_mode(m_debug);
+    }
+
     if (action == GLFW_RELEASE && key == GLFW_KEY_X)
     {
         m_salmon.advanced_mode();
@@ -491,12 +500,6 @@ void World::on_key(GLFWwindow *, int key, int, int action, int mod)
         m_salmon.move_left = true;
     if (action == GLFW_PRESS && (key == GLFW_KEY_RIGHT || key == GLFW_KEY_D))
         m_salmon.move_right = true;
-
-    if (action == GLFW_PRESS && (key == GLFW_KEY_RIGHT || key == GLFW_KEY_C))
-    {
-        m_debug = !m_debug;
-        m_water.set_debug_mode(m_debug);
-    }
 
     if (action == GLFW_RELEASE && (key == GLFW_KEY_UP || key == GLFW_KEY_W))
         m_salmon.move_up = false;
