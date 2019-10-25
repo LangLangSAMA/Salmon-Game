@@ -14,11 +14,8 @@ private:
     std::vector<vec3> m_init_pos;
     std::vector<Dot> m_path;
 
-    vec2 direction;
-
-    float move_distance;
-
     float horizontal_distance;
+    vec2 horizontal_directon;
     float vertical_distance;
     vec2 vertical_direction;
     float combined_distance;
@@ -35,7 +32,7 @@ public:
 
     // Update fish
     // ms represents the number of milliseconds elapsed from the previous update() call
-    void update(float ms, vec2 salmon_pos);
+    void update(float ms);
 
     void update_path(float ms, vec2 salmon_pos);
 

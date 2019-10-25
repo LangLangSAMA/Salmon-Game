@@ -66,8 +66,6 @@ bool Fish::init(bool m_debug)
     // 1.0 would be as big as the original texture.
     physics.scale = {-0.4f, 0.4f};
 
-    direction = {1.0f, 0.0f};
-
     for (int i = 0; i < 1500; i += 60)
     {
         Dot dot;
@@ -77,11 +75,10 @@ bool Fish::init(bool m_debug)
         }
     }
 
-    move_distance = 0.f;
-
     horizontal_distance = 0.f;
+    horizontal_directon = {1.f, 0.f};
     vertical_distance = 0.f;
-    vertical_direction = {1.f, 0.f};
+    vertical_direction = {0.f, 1.f};
     combined_distance = 0.f;
     combined_direction = {1.f, 0.f};
 
@@ -142,20 +139,35 @@ vec2 Fish::get_close_pos(vec2 salmon_pos)
     return result;
 }
 
-void Fish::update(float ms, vec2 salmon_pos)
+void Fish::update(float ms)
 {
     // Move fish along -X based on how much time has passed, this is to (partially) avoid
     // having entities move at different speed based on the machine.
-    float step = -1.0 * motion.speed * (ms / 1000);
-    if (move_distance > 0.f)
+    float step = 1.0 * motion.speed * (ms / 1000);
+
+    vec2 pos = motion.position;
+
+    if (horizontal_distance > 0)
     {
-        motion.position = add(motion.position, mul(normalize(direction), step));
-        move_distance += step;
+        pos = sub(pos, mul(horizontal_directon, step));
+        horizontal_distance -= step;
+    }
+    else if (vertical_distance > 0)
+    {
+        pos = sub(pos, mul(vertical_direction, step));
+        vertical_distance -= step;
+    }
+    else if (combined_distance > 0)
+    {
+        pos = sub(pos, mul(combined_direction, step));
+        combined_distance -= step;
     }
     else
     {
-        motion.position.x += step;
+        pos = sub(pos, {step, 0.f});
     }
+
+    motion.position = pos;
 }
 
 void Fish::update_path(float ms, vec2 salmon_pos)
@@ -171,28 +183,6 @@ void Fish::update_path(float ms, vec2 salmon_pos)
     vec2 pos_diff = get_close_pos(salmon_pos);
     float x = pos_diff.x;
     float y = pos_diff.y;
-
-    // Square
-    if (abs(x) < 150 && abs(y) < 150)
-    {
-        if (x < 0)
-        {
-            if (y >= 0)
-            {
-                direction = {0.f, 1.f};
-            }
-            else
-            {
-                direction = {0.f, -1.f};
-            }
-            move_distance = 150 - abs(y);
-        }
-        else
-        {
-            direction = normalize(pos_diff);
-            move_distance = 150 - sqrt(dot(pos_diff, pos_diff));
-        }
-    }
 
     if (abs(y) < 150)
     {
@@ -237,7 +227,7 @@ void Fish::update_path_coordiante()
     {
         if (horizontal_it < horizontal_distance)
         {
-            pos = sub(pos, {60.f, 0.f});
+            pos = sub(pos, mul(horizontal_directon, 60.f));
             horizontal_it += 60;
         }
         else if (vertical_it < vertical_distance)
@@ -272,7 +262,10 @@ void Fish::draw(const mat3 &projection)
     {
         for (int i = 0; i < m_path.size(); i++)
         {
-            m_path[i].draw(projection);
+            if (m_path[i].get_position().x < motion.position.x)
+            {
+                m_path[i].draw(projection);
+            }
         }
     }
     // Transformation code, see Rendering and Transformation in the template specification for more info
