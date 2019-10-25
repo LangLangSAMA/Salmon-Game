@@ -474,7 +474,7 @@ bool World::spawn_turtle()
 bool World::spawn_fish()
 {
     Fish fish;
-    if (fish.init())
+    if (fish.init(m_debug))
     {
         m_fish.emplace_back(fish);
         return true;
@@ -513,6 +513,8 @@ void World::on_key(GLFWwindow *, int key, int, int action, int mod)
     {
         m_debug = !m_debug;
         m_water.set_debug_mode(m_debug);
+        for (auto &fish : m_fish)
+            fish.set_debug_mode(m_debug);
     }
 
     if (action == GLFW_RELEASE && key == GLFW_KEY_X)

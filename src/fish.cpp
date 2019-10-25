@@ -5,7 +5,7 @@
 
 Texture Fish::fish_texture;
 
-bool Fish::init()
+bool Fish::init(bool m_debug)
 {
     // Load shared texture
     if (!fish_texture.is_valid())
@@ -84,6 +84,8 @@ bool Fish::init()
     vertical_direction = {1.f, 0.f};
     combined_distance = 0.f;
     combined_direction = {1.f, 0.f};
+
+    debug = m_debug;
 
     get_init_pos();
 
@@ -266,9 +268,12 @@ void Fish::update_path_coordiante()
 
 void Fish::draw(const mat3 &projection)
 {
-    for (int i = 0; i < m_path.size(); i++)
+    if (debug)
     {
-        m_path[i].draw(projection);
+        for (int i = 0; i < m_path.size(); i++)
+        {
+            m_path[i].draw(projection);
+        }
     }
     // Transformation code, see Rendering and Transformation in the template specification for more info
     // Incrementally updates transformation matrix, thus ORDER IS IMPORTANT
@@ -333,4 +338,9 @@ vec2 Fish::get_bounding_box() const
     // Returns the local bounding coordinates scaled by the current size of the fish
     // fabs is to avoid negative scale due to the facing direction.
     return {std::fabs(physics.scale.x) * fish_texture.width, std::fabs(physics.scale.y) * fish_texture.height};
+}
+
+void Fish::set_debug_mode(bool m_debug)
+{
+    debug = m_debug;
 }

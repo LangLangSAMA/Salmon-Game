@@ -24,9 +24,11 @@ private:
     float combined_distance;
     vec2 combined_direction;
 
+    bool debug;
+
 public:
     // Creates all the associated render resources and default transform
-    bool init();
+    bool init(bool m_debug);
 
     // Releases all the associated resources
     void destroy();
@@ -38,6 +40,8 @@ public:
     void update_path(float ms, vec2 salmon_pos);
 
     void update_path_coordiante();
+
+    void set_debug_mode(bool m_debug);
 
     // Renders the fish
     // projection is the 2D orthographic projection matrix
