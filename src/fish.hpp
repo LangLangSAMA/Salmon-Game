@@ -34,6 +34,8 @@ public:
     // ms represents the number of milliseconds elapsed from the previous update() call
     void update(float ms);
 
+    void init_path();
+
     void update_path(float ms, vec2 salmon_pos);
 
     void update_path_coordiante();

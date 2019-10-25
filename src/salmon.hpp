@@ -39,6 +39,8 @@ public:
     bool collides_with_wall();
     void collision_check();
 
+    void predict_collision();
+
     // Returns the current salmon position
     vec2 get_position() const;
 

@@ -25,10 +25,7 @@ bool Fish::init(bool m_debug)
     vertices[0].position = {-wr, +hr, -0.01f};
     vertices[0].texcoord = {0.f, 1.f};
     vertices[1].position = {+wr, +hr, -0.01f};
-    vertices[1].texcoord = {
-        1.f,
-        1.f,
-    };
+    vertices[1].texcoord = {1.f, 1.f};
     vertices[2].position = {+wr, -hr, -0.01f};
     vertices[2].texcoord = {1.f, 0.f};
     vertices[3].position = {-wr, -hr, -0.01f};
@@ -66,7 +63,7 @@ bool Fish::init(bool m_debug)
     // 1.0 would be as big as the original texture.
     physics.scale = {-0.4f, 0.4f};
 
-    for (int i = 0; i < 1500; i += 60)
+    for (int i = 0; i < 1500; i += 50)
     {
         Dot dot;
         if (dot.init(PATH))
@@ -87,6 +84,15 @@ bool Fish::init(bool m_debug)
     get_init_pos();
 
     return true;
+}
+
+void Fish::init_path()
+{
+    vec2 pos = motion.position;
+    for (int i = m_path.size(); i >= 0; i--)
+    {
+        m_path[i].update({pos.x - 50 * i, pos.y});
+    }
 }
 
 // Releases all graphics resources
@@ -211,6 +217,8 @@ void Fish::update_path(float ms, vec2 salmon_pos)
         horizontal_distance = 0.f;
         combined_distance = 0.f;
     }
+
+    update_path_coordiante();
 }
 
 void Fish::update_path_coordiante()
@@ -225,30 +233,30 @@ void Fish::update_path_coordiante()
     {
         if (horizontal_it < horizontal_distance)
         {
-            pos = sub(pos, mul(horizontal_directon, 60.f));
-            horizontal_it += 60;
+            pos = sub(pos, mul(horizontal_directon, 50.f));
+            horizontal_it += 50;
         }
         else if (vertical_it < vertical_distance)
         {
-            if (vertical_distance < 60.f)
+            if (vertical_distance < 50.f)
             {
                 pos = sub(pos, mul(vertical_direction, vertical_distance));
             }
             else
             {
-                pos = sub(pos, mul(vertical_direction, 60));
+                pos = sub(pos, mul(vertical_direction, 50));
             }
-            vertical_it += 60;
+            vertical_it += 50;
         }
         else if (combined_it < combined_distance)
         {
-            pos = sub(pos, mul(combined_direction, 60));
+            pos = sub(pos, mul(combined_direction, 50));
 
-            combined_it += 60;
+            combined_it += 50;
         }
         else
         {
-            pos = add(pos, {-60.f, 0.f});
+            pos = add(pos, {-50.f, 0.f});
         }
         m_path[i].update(pos);
     }

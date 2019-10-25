@@ -213,6 +213,18 @@ void Salmon::reflect()
     }
 }
 
+void Salmon::predict_collision()
+{
+    // float x = motion.position.x;
+    // float y = motion.position.y;
+    // while (x > 50 || x < 1150 || y > 50 || y < 750)
+    // {
+    //     x += 50 * cos(motion.radians);
+    //     y += 50 * sin(motion.radians);
+    // }
+    // collision_point = {x, y};
+}
+
 void Salmon::draw(const mat3 &projection)
 {
     transform.begin();
