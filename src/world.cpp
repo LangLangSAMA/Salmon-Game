@@ -17,7 +17,7 @@
 namespace
 {
 const size_t MAX_TURTLES = 15;
-const size_t MAX_FISH = 0;
+const size_t MAX_FISH = 3;
 const size_t TURTLE_DELAY_MS = 2000;
 const size_t FISH_DELAY_MS = 5000;
 
@@ -268,6 +268,7 @@ bool World::update(float elapsed_ms)
             fish.update_path(elapsed_ms, m_salmon.get_position());
         }
         fish.update(elapsed_ms * m_current_speed / 2);
+        fish.update_path_coordiante();
     }
 
     if (advanced_fish)
@@ -345,6 +346,8 @@ bool World::update(float elapsed_ms)
         Fish &new_fish = m_fish.back();
 
         new_fish.set_position({screen.x + 150, 50 + m_dist(m_rng) * (screen.y - 100)});
+
+        new_fish.update_path_coordiante();
 
         m_next_fish_spawn = (FISH_DELAY_MS / 2) + m_dist(m_rng) * (FISH_DELAY_MS / 2);
     }

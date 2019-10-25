@@ -211,8 +211,6 @@ void Fish::update_path(float ms, vec2 salmon_pos)
         horizontal_distance = 0.f;
         combined_distance = 0.f;
     }
-
-    update_path_coordiante();
 }
 
 void Fish::update_path_coordiante()
