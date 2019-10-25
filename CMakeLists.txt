@@ -41,6 +41,7 @@ set(SOURCE_FILES
     src/pebbles.cpp
     src/rectangle.cpp
     src/border.cpp
+    src/dot.cpp
 
     src/project_path.hpp
 	src/common.hpp
@@ -52,6 +53,7 @@ set(SOURCE_FILES
     src/pebbles.hpp
     src/rectangle.hpp
     src/border.hpp
+    src/dot.hpp
 	)
 
 if (IS_OS_MAC)

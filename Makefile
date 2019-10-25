@@ -177,6 +177,33 @@ src/common.cpp.s:
 	$(MAKE) -f CMakeFiles/salmon.dir/build.make CMakeFiles/salmon.dir/src/common.cpp.s
 .PHONY : src/common.cpp.s
 
+src/dot.o: src/dot.cpp.o
+
+.PHONY : src/dot.o
+
+# target to build an object file
+src/dot.cpp.o:
+	$(MAKE) -f CMakeFiles/salmon.dir/build.make CMakeFiles/salmon.dir/src/dot.cpp.o
+.PHONY : src/dot.cpp.o
+
+src/dot.i: src/dot.cpp.i
+
+.PHONY : src/dot.i
+
+# target to preprocess a source file
+src/dot.cpp.i:
+	$(MAKE) -f CMakeFiles/salmon.dir/build.make CMakeFiles/salmon.dir/src/dot.cpp.i
+.PHONY : src/dot.cpp.i
+
+src/dot.s: src/dot.cpp.s
+
+.PHONY : src/dot.s
+
+# target to generate assembly for a file
+src/dot.cpp.s:
+	$(MAKE) -f CMakeFiles/salmon.dir/build.make CMakeFiles/salmon.dir/src/dot.cpp.s
+.PHONY : src/dot.cpp.s
+
 src/fish.o: src/fish.cpp.o
 
 .PHONY : src/fish.o
@@ -408,6 +435,9 @@ help:
 	@echo "... src/common.o"
 	@echo "... src/common.i"
 	@echo "... src/common.s"
+	@echo "... src/dot.o"
+	@echo "... src/dot.i"
+	@echo "... src/dot.s"
 	@echo "... src/fish.o"
 	@echo "... src/fish.i"
 	@echo "... src/fish.s"

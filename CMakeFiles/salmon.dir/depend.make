@@ -17,6 +17,14 @@ CMakeFiles/salmon.dir/src/common.cpp.o: /usr/local/include/GLFW/glfw3.h
 CMakeFiles/salmon.dir/src/common.cpp.o: ext/gl3w/gl3w.h
 CMakeFiles/salmon.dir/src/common.cpp.o: ext/gl3w/glcorearb.h
 
+CMakeFiles/salmon.dir/src/dot.cpp.o: src/common.hpp
+CMakeFiles/salmon.dir/src/dot.cpp.o: src/dot.cpp
+CMakeFiles/salmon.dir/src/dot.cpp.o: src/dot.hpp
+CMakeFiles/salmon.dir/src/dot.cpp.o: src/project_path.hpp
+CMakeFiles/salmon.dir/src/dot.cpp.o: /usr/local/include/GLFW/glfw3.h
+CMakeFiles/salmon.dir/src/dot.cpp.o: ext/gl3w/gl3w.h
+CMakeFiles/salmon.dir/src/dot.cpp.o: ext/gl3w/glcorearb.h
+
 CMakeFiles/salmon.dir/src/fish.cpp.o: src/common.hpp
 CMakeFiles/salmon.dir/src/fish.cpp.o: src/fish.cpp
 CMakeFiles/salmon.dir/src/fish.cpp.o: src/fish.hpp
@@ -27,6 +35,7 @@ CMakeFiles/salmon.dir/src/fish.cpp.o: ext/gl3w/glcorearb.h
 
 CMakeFiles/salmon.dir/src/main.cpp.o: src/border.hpp
 CMakeFiles/salmon.dir/src/main.cpp.o: src/common.hpp
+CMakeFiles/salmon.dir/src/main.cpp.o: src/dot.hpp
 CMakeFiles/salmon.dir/src/main.cpp.o: src/fish.hpp
 CMakeFiles/salmon.dir/src/main.cpp.o: src/main.cpp
 CMakeFiles/salmon.dir/src/main.cpp.o: src/pebbles.hpp
@@ -130,6 +139,7 @@ CMakeFiles/salmon.dir/src/water.cpp.o: ext/gl3w/glcorearb.h
 
 CMakeFiles/salmon.dir/src/world.cpp.o: src/border.hpp
 CMakeFiles/salmon.dir/src/world.cpp.o: src/common.hpp
+CMakeFiles/salmon.dir/src/world.cpp.o: src/dot.hpp
 CMakeFiles/salmon.dir/src/world.cpp.o: src/fish.hpp
 CMakeFiles/salmon.dir/src/world.cpp.o: src/pebbles.hpp
 CMakeFiles/salmon.dir/src/world.cpp.o: src/project_path.hpp

@@ -1,6 +1,7 @@
 file(REMOVE_RECURSE
   "CMakeFiles/salmon.dir/src/border.cpp.o"
   "CMakeFiles/salmon.dir/src/common.cpp.o"
+  "CMakeFiles/salmon.dir/src/dot.cpp.o"
   "CMakeFiles/salmon.dir/src/fish.cpp.o"
   "CMakeFiles/salmon.dir/src/main.cpp.o"
   "CMakeFiles/salmon.dir/src/pebbles.cpp.o"

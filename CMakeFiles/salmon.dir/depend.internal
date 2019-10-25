@@ -17,6 +17,14 @@ CMakeFiles/salmon.dir/src/common.cpp.o
  /usr/local/include/GLFW/glfw3.h
  ext/gl3w/gl3w.h
  ext/gl3w/glcorearb.h
+CMakeFiles/salmon.dir/src/dot.cpp.o
+ /Users/LangLang/CPSC427/CPSC427-A1/src/common.hpp
+ /Users/LangLang/CPSC427/CPSC427-A1/src/dot.cpp
+ /Users/LangLang/CPSC427/CPSC427-A1/src/dot.hpp
+ /Users/LangLang/CPSC427/CPSC427-A1/src/project_path.hpp
+ /usr/local/include/GLFW/glfw3.h
+ ext/gl3w/gl3w.h
+ ext/gl3w/glcorearb.h
 CMakeFiles/salmon.dir/src/fish.cpp.o
  /Users/LangLang/CPSC427/CPSC427-A1/src/common.hpp
  /Users/LangLang/CPSC427/CPSC427-A1/src/fish.cpp
@@ -28,6 +36,7 @@ CMakeFiles/salmon.dir/src/fish.cpp.o
 CMakeFiles/salmon.dir/src/main.cpp.o
  /Users/LangLang/CPSC427/CPSC427-A1/src/border.hpp
  /Users/LangLang/CPSC427/CPSC427-A1/src/common.hpp
+ /Users/LangLang/CPSC427/CPSC427-A1/src/dot.hpp
  /Users/LangLang/CPSC427/CPSC427-A1/src/fish.hpp
  /Users/LangLang/CPSC427/CPSC427-A1/src/main.cpp
  /Users/LangLang/CPSC427/CPSC427-A1/src/pebbles.hpp
@@ -131,6 +140,7 @@ CMakeFiles/salmon.dir/src/water.cpp.o
 CMakeFiles/salmon.dir/src/world.cpp.o
  /Users/LangLang/CPSC427/CPSC427-A1/src/border.hpp
  /Users/LangLang/CPSC427/CPSC427-A1/src/common.hpp
+ /Users/LangLang/CPSC427/CPSC427-A1/src/dot.hpp
  /Users/LangLang/CPSC427/CPSC427-A1/src/fish.hpp
  /Users/LangLang/CPSC427/CPSC427-A1/src/pebbles.hpp
  /Users/LangLang/CPSC427/CPSC427-A1/src/project_path.hpp

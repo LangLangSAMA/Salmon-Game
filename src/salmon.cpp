@@ -97,7 +97,14 @@ bool Salmon::init()
     }
 
     m_is_alive = true;
+    // is_collided = false;
+    collision_flag = false;
     m_light_up_countdown_ms = -1.f;
+
+    boundary = EMPTY;
+
+    vec3 collision_point = {-1.f, -1.f, -1.f};
+    // float collision_duration = 10.f;
 
     return true;
 }
@@ -163,6 +170,49 @@ void Salmon::update(float ms)
 
     if (m_light_up_countdown_ms > 0.f)
         m_light_up_countdown_ms -= ms;
+}
+
+void Salmon::reflect()
+{
+    float displacement = 50.f;
+    switch (boundary)
+    {
+    case TOP:
+    case BOTTOM:
+        motion.radians = -motion.radians;
+        break;
+    case LEFT:
+    case RIGHT:
+        if (motion.radians < 0)
+        {
+            motion.radians = -motion.radians - PI;
+        }
+        else
+        {
+            motion.radians = -motion.radians + PI;
+        }
+        break;
+    default:
+        break;
+    }
+
+    switch (boundary)
+    {
+    case TOP:
+        move({0.f, displacement});
+        break;
+    case BOTTOM:
+        move({0.f, -displacement});
+        break;
+    case LEFT:
+        move({displacement, 0.f});
+        break;
+    case RIGHT:
+        move({-displacement, 0.f});
+        break;
+    default:
+        break;
+    }
 }
 
 void Salmon::draw(const mat3 &projection)
@@ -248,7 +298,7 @@ void Salmon::draw(const mat3 &projection)
     glDrawElements(GL_TRIANGLES, num_indices, GL_UNSIGNED_SHORT, nullptr);
 }
 
-Boundary Salmon::collision_check()
+void Salmon::collision_check()
 {
     vec2 top;
     vec2 bottom;
@@ -288,7 +338,7 @@ Boundary Salmon::collision_check()
         }
     }
 
-    Boundary boundary = EMPTY;
+    boundary = EMPTY;
 
     if (y_top < 50)
     {
@@ -306,55 +356,26 @@ Boundary Salmon::collision_check()
     {
         boundary = RIGHT;
     }
-
-    return boundary;
 }
 
-void Salmon::collides_with_wall()
+bool Salmon::collides_with_wall()
 {
-    Boundary boundary = collision_check();
+    collision_check();
 
-    switch (boundary)
+    bool is_collided = false;
+
+    if (!collision_flag)
     {
-    case TOP:
-    case BOTTOM:
-        motion.radians = -motion.radians;
-        break;
-    case LEFT:
-    case RIGHT:
-        if (motion.radians < 0)
-        {
-            motion.radians = -motion.radians - PI;
-        }
-        else
-        {
-            motion.radians = -motion.radians + PI;
-        }
-        break;
-    default:
-        break;
+        collision_flag = true;
+        return false;
     }
 
-    if (move_up)
+    if (boundary != EMPTY)
     {
-        switch (boundary)
-        {
-        case TOP:
-            move({0.f, 50.f});
-            break;
-        case BOTTOM:
-            move({0.f, -50.f});
-            break;
-        case LEFT:
-            move({50.f, 0.f});
-            break;
-        case RIGHT:
-            move({-50.f, 0.f});
-            break;
-        default:
-            break;
-        }
+        is_collided = true;
     }
+
+    return is_collided;
 }
 
 // Simple bounding box collision check
@@ -454,3 +475,13 @@ void Salmon::advanced_mode()
         physics.scale = {-35.f, 35.f};
     }
 }
+
+// bool Salmon::get_is_collided()
+// {
+//     return is_collided;
+// }
+
+// bool Salmon::set_is_collided(bool m_is_collided)
+// {
+//     return is_collided = m_is_collided;
+// }

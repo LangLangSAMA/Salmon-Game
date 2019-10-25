@@ -9,6 +9,7 @@
 #include "pebbles.hpp"
 #include "rectangle.hpp"
 #include "border.hpp"
+#include "dot.hpp"
 
 // stlib
 #include <vector>
@@ -72,6 +73,7 @@ private:
     Salmon m_salmon;
     Rectangle m_rectangle;
     Border m_border;
+    Dot m_dot;
     std::vector<Turtle> m_turtles;
     std::vector<Fish> m_fish;
     Pebbles m_pebbles_emitter;
@@ -85,7 +87,9 @@ private:
     Mix_Chunk *m_salmon_eat_sound;
 
     bool m_debug;
-    
+    bool m_is_collided;
+    float m_collision_duration;
+
     // C++ rng
     std::default_random_engine m_rng;
     std::uniform_real_distribution<float> m_dist; // default 0..1

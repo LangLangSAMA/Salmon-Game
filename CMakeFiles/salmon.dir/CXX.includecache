@@ -6,10 +6,6 @@
 
 #IncludeRegexTransform: 
 
-/Users/LangLang/CPSC427/CPSC427-A1/src/border.cpp
-border.hpp
-/Users/LangLang/CPSC427/CPSC427-A1/src/border.hpp
-
 /Users/LangLang/CPSC427/CPSC427-A1/src/border.hpp
 common.hpp
 /Users/LangLang/CPSC427/CPSC427-A1/src/common.hpp
@@ -26,9 +22,27 @@ GLFW/glfw3.h
 project_path.hpp
 /Users/LangLang/CPSC427/CPSC427-A1/src/project_path.hpp
 
+/Users/LangLang/CPSC427/CPSC427-A1/src/dot.hpp
+common.hpp
+/Users/LangLang/CPSC427/CPSC427-A1/src/common.hpp
+vector
+-
+
 /Users/LangLang/CPSC427/CPSC427-A1/src/fish.hpp
 common.hpp
 /Users/LangLang/CPSC427/CPSC427-A1/src/common.hpp
+
+/Users/LangLang/CPSC427/CPSC427-A1/src/main.cpp
+common.hpp
+/Users/LangLang/CPSC427/CPSC427-A1/src/common.hpp
+world.hpp
+/Users/LangLang/CPSC427/CPSC427-A1/src/world.hpp
+gl3w.h
+-
+chrono
+-
+iostream
+-
 
 /Users/LangLang/CPSC427/CPSC427-A1/src/pebbles.hpp
 vector
@@ -38,14 +52,28 @@ common.hpp
 
 /Users/LangLang/CPSC427/CPSC427-A1/src/project_path.hpp
 
-/Users/LangLang/CPSC427/CPSC427-A1/src/rectangle.cpp
-rectangle.hpp
-/Users/LangLang/CPSC427/CPSC427-A1/src/rectangle.hpp
-
 /Users/LangLang/CPSC427/CPSC427-A1/src/rectangle.hpp
 common.hpp
 /Users/LangLang/CPSC427/CPSC427-A1/src/common.hpp
 vector
+-
+
+/Users/LangLang/CPSC427/CPSC427-A1/src/salmon.cpp
+salmon.hpp
+/Users/LangLang/CPSC427/CPSC427-A1/src/salmon.hpp
+turtle.hpp
+/Users/LangLang/CPSC427/CPSC427-A1/src/turtle.hpp
+fish.hpp
+/Users/LangLang/CPSC427/CPSC427-A1/src/fish.hpp
+string
+-
+algorithm
+-
+math.h
+-
+iostream
+-
+iomanip
 -
 
 /Users/LangLang/CPSC427/CPSC427-A1/src/salmon.hpp
@@ -89,6 +117,8 @@ rectangle.hpp
 /Users/LangLang/CPSC427/CPSC427-A1/src/rectangle.hpp
 border.hpp
 /Users/LangLang/CPSC427/CPSC427-A1/src/border.hpp
+dot.hpp
+/Users/LangLang/CPSC427/CPSC427-A1/src/dot.hpp
 vector
 -
 random

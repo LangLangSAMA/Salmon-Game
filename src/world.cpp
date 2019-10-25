@@ -132,7 +132,9 @@ bool World::init(vec2 screen)
 
     m_current_speed = 1.f;
 
-    return m_salmon.init() && m_water.init() && m_pebbles_emitter.init() && m_border.init() && m_rectangle.init();
+    m_collision_duration = 0.f;
+
+    return m_salmon.init() && m_water.init() && m_pebbles_emitter.init() && m_border.init() && m_rectangle.init() && m_dot.init();
 }
 
 // Releases all the associated resources
@@ -169,7 +171,31 @@ bool World::update(float elapsed_ms)
     glfwGetFramebufferSize(m_window, &w, &h);
     vec2 screen = {(float)w / m_screen_scale, (float)h / m_screen_scale};
 
-    m_salmon.collides_with_wall();
+    if (m_debug)
+    {
+        if (!m_is_collided && m_salmon.collides_with_wall())
+        {
+            m_collision_duration = 500.f;
+            m_is_collided = true;
+        }
+
+        if (m_collision_duration >= 0.f)
+        {
+            m_collision_duration -= elapsed_ms;
+        }
+        else
+        {
+            m_salmon.reflect();
+            m_is_collided = false;
+        }
+    }
+    else
+    {
+        if (m_salmon.collides_with_wall())
+        {
+            m_salmon.reflect();
+        }
+    }
 
     // Checking Salmon - Turtle collisions
     for (const auto &turtle : m_turtles)
@@ -215,11 +241,14 @@ bool World::update(float elapsed_ms)
     // faster based on current.
     // In a pure ECS engine we would classify entities by their bitmap tags during the update loop
     // rather than by their class.
-    m_salmon.update(elapsed_ms);
-    for (auto &turtle : m_turtles)
-        turtle.update(elapsed_ms * m_current_speed / 10);
-    for (auto &fish : m_fish)
-        fish.update(elapsed_ms * m_current_speed / 10);
+    if (!m_is_collided)
+    {
+        m_salmon.update(elapsed_ms);
+        for (auto &turtle : m_turtles)
+            turtle.update(elapsed_ms * m_current_speed / 10);
+        for (auto &fish : m_fish)
+            fish.update(elapsed_ms * m_current_speed / 10);
+    }
     m_rectangle.update(m_salmon.get_position());
 
     // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -350,9 +379,11 @@ void World::draw()
     // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
     // Drawing entities
-    if (m_debug) {
+    if (m_debug)
+    {
         m_rectangle.draw(projection_2D);
         m_border.draw(projection_2D);
+        m_dot.draw(projection_2D);
     }
     for (auto &turtle : m_turtles)
         turtle.draw(projection_2D);
@@ -435,6 +466,8 @@ void World::on_key(GLFWwindow *, int key, int, int action, int mod)
         m_turtles.clear();
         m_fish.clear();
         m_water.reset_salmon_dead_time();
+        m_debug = false;
+        m_water.set_debug_mode(false);
         m_current_speed = 1.f;
     }
 
@@ -457,7 +490,6 @@ void World::on_key(GLFWwindow *, int key, int, int action, int mod)
         m_debug = !m_debug;
         m_water.set_debug_mode(m_debug);
     }
-
 
     if (action == GLFW_RELEASE && (key == GLFW_KEY_UP || key == GLFW_KEY_W))
         m_salmon.move_up = false;
