@@ -50,7 +50,7 @@ bool Dot::init(int type)
     physics.scale = {0.5f, 0.5f};
 
     if (type == PATH)
-        physics.scale = {1.f, 1.f};
+        physics.scale = {0.8f, 0.8f};
 
     return true;
 }
@@ -120,4 +120,9 @@ void Dot::draw(const mat3 &projection)
 
     // Drawing!
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, nullptr);
+}
+
+vec2 Dot::get_position()
+{
+    return motion.position;
 }

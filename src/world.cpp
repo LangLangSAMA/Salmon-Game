@@ -17,7 +17,7 @@
 namespace
 {
 const size_t MAX_TURTLES = 15;
-const size_t MAX_FISH = 5;
+const size_t MAX_FISH = 3;
 const size_t TURTLE_DELAY_MS = 2000;
 const size_t FISH_DELAY_MS = 5000;
 
@@ -265,9 +265,9 @@ bool World::update(float elapsed_ms)
     {
         if (advanced_fish)
         {
-            fish.update_path(m_salmon.get_position());
+            fish.update_path(elapsed_ms, m_salmon.get_position());
         }
-        fish.update(elapsed_ms * m_current_speed / 2);
+        fish.update(elapsed_ms * m_current_speed / 2, m_salmon.get_position());
     }
 
     if (advanced_fish)
@@ -546,7 +546,10 @@ void World::on_key(GLFWwindow *, int key, int, int action, int mod)
 
     if (action == GLFW_RELEASE && key == GLFW_KEY_N)
     {
-        m_frequency -= 100.0f;
+        if (m_frequency > 0.0f)
+        {
+            m_frequency -= 100.0f;
+        }
     }
 
     if (action == GLFW_RELEASE && key == GLFW_KEY_M)

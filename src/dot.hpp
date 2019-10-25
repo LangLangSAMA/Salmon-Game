@@ -17,6 +17,8 @@ public:
 
     void update(vec2 pos);
 
+    vec2 get_position();
+
 private:
     int m_type;
     std::vector<Vertex> m_vertices;

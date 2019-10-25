@@ -26,6 +26,7 @@ CMakeFiles/salmon.dir/src/dot.cpp.o: ext/gl3w/gl3w.h
 CMakeFiles/salmon.dir/src/dot.cpp.o: ext/gl3w/glcorearb.h
 
 CMakeFiles/salmon.dir/src/fish.cpp.o: src/common.hpp
+CMakeFiles/salmon.dir/src/fish.cpp.o: src/dot.hpp
 CMakeFiles/salmon.dir/src/fish.cpp.o: src/fish.cpp
 CMakeFiles/salmon.dir/src/fish.cpp.o: src/fish.hpp
 CMakeFiles/salmon.dir/src/fish.cpp.o: src/project_path.hpp
@@ -112,6 +113,7 @@ CMakeFiles/salmon.dir/src/rectangle.cpp.o: ext/gl3w/gl3w.h
 CMakeFiles/salmon.dir/src/rectangle.cpp.o: ext/gl3w/glcorearb.h
 
 CMakeFiles/salmon.dir/src/salmon.cpp.o: src/common.hpp
+CMakeFiles/salmon.dir/src/salmon.cpp.o: src/dot.hpp
 CMakeFiles/salmon.dir/src/salmon.cpp.o: src/fish.hpp
 CMakeFiles/salmon.dir/src/salmon.cpp.o: src/project_path.hpp
 CMakeFiles/salmon.dir/src/salmon.cpp.o: src/salmon.cpp

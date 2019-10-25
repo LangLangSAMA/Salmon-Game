@@ -68,6 +68,23 @@ bool Fish::init()
 
     direction = {1.0f, 0.0f};
 
+    for (int i = 0; i < 1500; i += 60)
+    {
+        Dot dot;
+        if (dot.init(PATH))
+        {
+            m_path.push_back(dot);
+        }
+    }
+
+    move_distance = 0.f;
+
+    horizontal_distance = 0.f;
+    vertical_distance = 0.f;
+    vertical_direction = {1.f, 0.f};
+    combined_distance = 0.f;
+    combined_direction = {1.f, 0.f};
+
     get_init_pos();
 
     return true;
@@ -76,6 +93,9 @@ bool Fish::init()
 // Releases all graphics resources
 void Fish::destroy()
 {
+    for (auto &dot : m_path)
+        dot.destroy();
+    m_path.clear();
     glDeleteBuffers(1, &mesh.vbo);
     glDeleteBuffers(1, &mesh.ibo);
     glDeleteBuffers(1, &mesh.vao);
@@ -120,16 +140,23 @@ vec2 Fish::get_close_pos(vec2 salmon_pos)
     return result;
 }
 
-void Fish::update(float ms)
+void Fish::update(float ms, vec2 salmon_pos)
 {
     // Move fish along -X based on how much time has passed, this is to (partially) avoid
     // having entities move at different speed based on the machine.
     float step = -1.0 * motion.speed * (ms / 1000);
-
-    motion.position = add(motion.position, mul(normalize(direction), step));
+    if (move_distance > 0.f)
+    {
+        motion.position = add(motion.position, mul(normalize(direction), step));
+        move_distance += step;
+    }
+    else
+    {
+        motion.position.x += step;
+    }
 }
 
-void Fish::update_path(vec2 salmon_pos)
+void Fish::update_path(float ms, vec2 salmon_pos)
 {
     // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     // HANDLE FISH AI HERE
@@ -137,6 +164,8 @@ void Fish::update_path(vec2 salmon_pos)
     // You will likely want to write new functions and need to create
     // new data structures to implement a more sophisticated Fish AI.
     // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    float step = 1.0 * motion.speed * (ms / 1000);
+
     vec2 pos_diff = get_close_pos(salmon_pos);
     float x = pos_diff.x;
     float y = pos_diff.y;
@@ -154,20 +183,93 @@ void Fish::update_path(vec2 salmon_pos)
             {
                 direction = {0.f, -1.f};
             }
+            move_distance = 150 - abs(y);
         }
         else
         {
-            direction = pos_diff;
+            direction = normalize(pos_diff);
+            move_distance = 150 - sqrt(dot(pos_diff, pos_diff));
+        }
+    }
+
+    if (abs(y) < 150)
+    {
+        if (x < 0)
+        {
+            if (y >= 0)
+            {
+                vertical_direction = {0.f, 1.f};
+            }
+            else
+            {
+                vertical_direction = {0.f, -1.f};
+            }
+            vertical_distance = 150 - abs(y);
+            horizontal_distance = abs(x) - 150;
+        }
+        else
+        {
+            combined_direction = normalize(pos_diff);
+            combined_distance = 150 - sqrt(dot(pos_diff, pos_diff));
         }
     }
     else
     {
-        direction = {1.f, 0.f};
+        vertical_distance = 0.f;
+        horizontal_distance = 0.f;
+        combined_distance = 0.f;
+    }
+
+    update_path_coordiante();
+}
+
+void Fish::update_path_coordiante()
+{
+    float horizontal_it = 0.f;
+    float vertical_it = 0.f;
+    float combined_it = 0.f;
+
+    vec2 pos = motion.position;
+
+    for (int i = m_path.size() - 1; i >= 0; i--)
+    {
+        if (horizontal_it < horizontal_distance)
+        {
+            pos = sub(pos, {60.f, 0.f});
+            horizontal_it += 60;
+        }
+        else if (vertical_it < vertical_distance)
+        {
+            if (vertical_distance < 60.f)
+            {
+                pos = sub(pos, mul(vertical_direction, vertical_distance));
+            }
+            else
+            {
+                pos = sub(pos, mul(vertical_direction, 60));
+            }
+            vertical_it += 60;
+        }
+        else if (combined_it < combined_distance)
+        {
+            pos = sub(pos, mul(combined_direction, 60));
+
+            combined_it += 60;
+        }
+        else
+        {
+            pos = add(pos, {-60.f, 0.f});
+        }
+        m_path[i].update(pos);
     }
 }
 
 void Fish::draw(const mat3 &projection)
 {
+    for (int i = 0; i < m_path.size(); i++)
+    {
+        m_path[i].draw(projection);
+    }
     // Transformation code, see Rendering and Transformation in the template specification for more info
     // Incrementally updates transformation matrix, thus ORDER IS IMPORTANT
     transform.begin();
