@@ -66,6 +66,8 @@ bool Fish::init()
     // 1.0 would be as big as the original texture.
     physics.scale = {-0.4f, 0.4f};
 
+    get_init_pos();
+
     return true;
 }
 
@@ -81,6 +83,37 @@ void Fish::destroy()
     glDeleteShader(effect.program);
 }
 
+void Fish::get_init_pos()
+{
+    float x = fish_texture.width / 2;
+    float y = fish_texture.height / 2;
+
+    m_init_pos.push_back({-x, 0, 1.f});
+    m_init_pos.push_back({0, y, 1.f});
+    m_init_pos.push_back({0, -y, 1.f});
+    m_init_pos.push_back({x, 0, 1.f});
+}
+
+vec2 Fish::get_close_pos(vec2 salmon_pos)
+{
+    vec2 result;
+    float val = 9999999.f;
+    for (int i = 0; i < m_init_pos.size(); i++)
+    {
+        vec3 pos_transformed = mul(transform.out, m_init_pos[i]);
+        vec2 pos = {pos_transformed.x, pos_transformed.y};
+        vec2 pos_diff = sub(salmon_pos, pos);
+        float temp = dot(pos_diff, pos_diff);
+        if (temp < val)
+        {
+            val = temp;
+            result = pos_diff;
+        }
+    }
+
+    return result;
+}
+
 void Fish::update(float ms, vec2 salmon_pos)
 {
     // Move fish along -X based on how much time has passed, this is to (partially) avoid
@@ -93,23 +126,25 @@ void Fish::update(float ms, vec2 salmon_pos)
     // You will likely want to write new functions and need to create
     // new data structures to implement a more sophisticated Fish AI.
     // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    vec2 fish_bounding_box = get_bounding_box();
-    vec3 fish_init_pos = {fish_bounding_box.x, fish_bounding_box.y, 1.f};
-    vec3 fish_pos = mul(transform.out, fish_init_pos);
-    vec2 fish_pos_transformed = {fish_pos.x, fish_pos.y};
-    vec2 pos_diff = sub(salmon_pos, fish_pos_transformed);
+    vec2 pos_diff = get_close_pos(salmon_pos);
     float x = pos_diff.x;
     float y = pos_diff.y;
 
-    if (sqrtf(dot(pos_diff, pos_diff)) < 175)
+    // Circle
+    // if (sqrtf(dot(pos_diff, pos_diff)) < 175)
+    // Square
+    if (abs(x) < 150 && abs(y) < 150)
     {
-
         if (x < 0)
         {
-            if (y > 0)
+            if (y >= 0)
+            {
                 motion.position.y += step;
-            if (y <= 0)
+            }
+            else
+            {
                 motion.position.y -= step;
+            }
         }
         else
         {

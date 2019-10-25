@@ -1,12 +1,16 @@
 #pragma once
 
 #include "common.hpp"
+#include <vector>
 
 // Salmon food
 class Fish : public Entity
 {
     // Shared between all fish, no need to load one for each instance
     static Texture fish_texture;
+
+private:
+    std::vector<vec3> m_init_pos;
 
 public:
     // Creates all the associated render resources and default transform
@@ -31,4 +35,8 @@ public:
 
     // Returns the fish' bounding box for collision detection, called by collides_with()
     vec2 get_bounding_box() const;
+
+    void get_init_pos();
+
+    vec2 get_close_pos(vec2 salmon_pos);
 };
