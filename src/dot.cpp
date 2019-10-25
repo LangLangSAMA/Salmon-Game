@@ -42,7 +42,7 @@ bool Dot::init()
     if (!effect.load_from_file(shader_path("coloured.vs.glsl"), shader_path("coloured.fs.glsl")))
         return false;
 
-    motion.position = {600.f, 400.f};
+    motion.position = {-1.f, -1.f};
     motion.radians = 0.f;
 
     physics.scale = {0.5f, 0.5f};
@@ -50,10 +50,10 @@ bool Dot::init()
     return true;
 }
 
-// void Dot::update(vec2 pos)
-// {
-//     motion.position = pos;
-// }
+void Dot::update(vec2 pos)
+{
+    motion.position = pos;
+}
 
 // Releases all graphics resources
 void Dot::destroy()

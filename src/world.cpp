@@ -243,11 +243,16 @@ bool World::update(float elapsed_ms)
     // rather than by their class.
     if (!m_is_collided)
     {
+        m_dot.update({-1.f, -1.f});
         m_salmon.update(elapsed_ms);
         for (auto &turtle : m_turtles)
             turtle.update(elapsed_ms * m_current_speed / 10);
         for (auto &fish : m_fish)
             fish.update(elapsed_ms * m_current_speed / 10);
+    }
+    else
+    {
+        m_dot.update(m_salmon.get_collision_point());
     }
     m_rectangle.update(m_salmon.get_position());
 
@@ -383,13 +388,15 @@ void World::draw()
     {
         m_rectangle.draw(projection_2D);
         m_border.draw(projection_2D);
-        m_dot.draw(projection_2D);
     }
     for (auto &turtle : m_turtles)
         turtle.draw(projection_2D);
     for (auto &fish : m_fish)
         fish.draw(projection_2D);
     m_salmon.draw(projection_2D);
+
+    if (m_debug)
+        m_dot.draw(projection_2D);
 
     /////////////////////
     // Truely render to the screen

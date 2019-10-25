@@ -63,9 +63,7 @@ public:
     // Called when pressed X to toggle advanced mode
     void advanced_mode();
 
-    // bool get_is_collided();
-
-    // bool set_is_collided(bool m_is_collided);
+    vec2 get_collision_point();
 
     // booleans determine salmon movement
     bool move_up;
@@ -80,14 +78,10 @@ private:
     float m_light_up_countdown_ms; // Used to keep track for how long the salmon should be lit up
     bool m_is_alive;               // True if the salmon is alive
 
-    vec3 collision_point;
+    vec2 collision_point;
     bool collision_flag;
 
     Boundary boundary;
-
-    // float collision_duration;
-
-    // bool is_collided;
 
     std::vector<Vertex> m_vertices;
     std::vector<uint16_t> m_indices;

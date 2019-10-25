@@ -15,6 +15,8 @@ public:
     // Renders the water
     void draw(const mat3 &projection) override;
 
+    void update(vec2 pos);
+
 private:
     std::vector<Vertex> m_vertices;
     std::vector<uint16_t> m_indices;

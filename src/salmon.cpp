@@ -97,14 +97,12 @@ bool Salmon::init()
     }
 
     m_is_alive = true;
-    // is_collided = false;
     collision_flag = false;
     m_light_up_countdown_ms = -1.f;
 
     boundary = EMPTY;
 
     vec3 collision_point = {-1.f, -1.f, -1.f};
-    // float collision_duration = 10.f;
 
     return true;
 }
@@ -343,18 +341,22 @@ void Salmon::collision_check()
     if (y_top < 50)
     {
         boundary = TOP;
+        collision_point = {top.x, top.y};
     }
     else if (y_bottom > 750)
     {
         boundary = BOTTOM;
+        collision_point = {bottom.x, bottom.y};
     }
     else if (x_left < 50)
     {
         boundary = LEFT;
+        collision_point = {left.x, left.y};
     }
     else if (x_right > 1150)
     {
         boundary = RIGHT;
+        collision_point = {right.x, right.y};
     }
 }
 
@@ -476,12 +478,7 @@ void Salmon::advanced_mode()
     }
 }
 
-// bool Salmon::get_is_collided()
-// {
-//     return is_collided;
-// }
-
-// bool Salmon::set_is_collided(bool m_is_collided)
-// {
-//     return is_collided = m_is_collided;
-// }
+vec2 Salmon::get_collision_point()
+{
+    return collision_point;
+}

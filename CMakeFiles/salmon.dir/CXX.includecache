@@ -32,18 +32,6 @@ vector
 common.hpp
 /Users/LangLang/CPSC427/CPSC427-A1/src/common.hpp
 
-/Users/LangLang/CPSC427/CPSC427-A1/src/main.cpp
-common.hpp
-/Users/LangLang/CPSC427/CPSC427-A1/src/common.hpp
-world.hpp
-/Users/LangLang/CPSC427/CPSC427-A1/src/world.hpp
-gl3w.h
--
-chrono
--
-iostream
--
-
 /Users/LangLang/CPSC427/CPSC427-A1/src/pebbles.hpp
 vector
 -
@@ -56,24 +44,6 @@ common.hpp
 common.hpp
 /Users/LangLang/CPSC427/CPSC427-A1/src/common.hpp
 vector
--
-
-/Users/LangLang/CPSC427/CPSC427-A1/src/salmon.cpp
-salmon.hpp
-/Users/LangLang/CPSC427/CPSC427-A1/src/salmon.hpp
-turtle.hpp
-/Users/LangLang/CPSC427/CPSC427-A1/src/turtle.hpp
-fish.hpp
-/Users/LangLang/CPSC427/CPSC427-A1/src/fish.hpp
-string
--
-algorithm
--
-math.h
--
-iostream
--
-iomanip
 -
 
 /Users/LangLang/CPSC427/CPSC427-A1/src/salmon.hpp
