@@ -215,14 +215,61 @@ void Salmon::reflect()
 
 void Salmon::predict_collision()
 {
-    // float x = motion.position.x;
-    // float y = motion.position.y;
-    // while (x > 50 || x < 1150 || y > 50 || y < 750)
-    // {
-    //     x += 50 * cos(motion.radians);
-    //     y += 50 * sin(motion.radians);
-    // }
-    // collision_point = {x, y};
+    float x_direction = cosf(motion.radians);
+    float y_direction = -sinf(motion.radians);
+
+    if (move_down)
+    {
+        x_direction = -x_direction;
+        y_direction = -y_direction;
+    }
+
+    float c_x, c_y, x, y;
+
+    if (y_direction > 0)
+    {
+        c_x = collision_top.x;
+        c_y = collision_top.y;
+        x = c_x + cosf(motion.radians) / sinf(motion.radians) * (50 - c_y);
+
+        if (x >= 50.f && x <= 1100.f)
+        {
+            collision_point = {x, 50};
+        }
+    }
+    if (y_direction < 0)
+    {
+        c_x = collision_bottom.x;
+        c_y = collision_bottom.y;
+        x = c_x + cosf(motion.radians) / sinf(motion.radians) * (750 - c_y);
+
+        if (x >= 50.f && x <= 1100.f)
+        {
+            collision_point = {x, 750};
+        }
+    }
+    if (x_direction < 0)
+    {
+        c_x = collision_left.x;
+        c_y = collision_left.y;
+        y = c_y + sinf(motion.radians) / cosf(motion.radians) * (50 - c_x);
+
+        if (y >= 50.f && y <= 750.f)
+        {
+            collision_point = {50, y};
+        }
+    }
+    if (x_direction > 0)
+    {
+        c_x = collision_right.x;
+        c_y = collision_right.y;
+        y = c_y + sinf(motion.radians) / cosf(motion.radians) * (1150 - c_x);
+
+        if (y >= 50.f && y <= 750.f)
+        {
+            collision_point = {1150, y};
+        }
+    }
 }
 
 void Salmon::draw(const mat3 &projection)
@@ -347,6 +394,11 @@ void Salmon::collision_check()
             bottom = {x, y};
         }
     }
+
+    collision_top = top;
+    collision_bottom = bottom;
+    collision_left = left;
+    collision_right = right;
 
     boundary = EMPTY;
 

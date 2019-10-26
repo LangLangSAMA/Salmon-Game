@@ -22,12 +22,6 @@ common.hpp
 vector
 -
 
-/Users/LangLang/CPSC427/CPSC427-A1/src/fish.cpp
-fish.hpp
-/Users/LangLang/CPSC427/CPSC427-A1/src/fish.hpp
-cmath
--
-
 /Users/LangLang/CPSC427/CPSC427-A1/src/fish.hpp
 common.hpp
 /Users/LangLang/CPSC427/CPSC427-A1/src/common.hpp
@@ -37,6 +31,34 @@ vector
 -
 
 /Users/LangLang/CPSC427/CPSC427-A1/src/project_path.hpp
+
+/Users/LangLang/CPSC427/CPSC427-A1/src/salmon.cpp
+salmon.hpp
+/Users/LangLang/CPSC427/CPSC427-A1/src/salmon.hpp
+turtle.hpp
+/Users/LangLang/CPSC427/CPSC427-A1/src/turtle.hpp
+fish.hpp
+/Users/LangLang/CPSC427/CPSC427-A1/src/fish.hpp
+string
+-
+algorithm
+-
+math.h
+-
+iostream
+-
+iomanip
+-
+
+/Users/LangLang/CPSC427/CPSC427-A1/src/salmon.hpp
+common.hpp
+/Users/LangLang/CPSC427/CPSC427-A1/src/common.hpp
+vector
+-
+
+/Users/LangLang/CPSC427/CPSC427-A1/src/turtle.hpp
+common.hpp
+/Users/LangLang/CPSC427/CPSC427-A1/src/common.hpp
 
 /usr/local/include/GLFW/glfw3.h
 stddef.h

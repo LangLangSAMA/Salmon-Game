@@ -81,6 +81,10 @@ private:
     bool m_is_alive;               // True if the salmon is alive
 
     vec2 collision_point;
+    vec2 collision_top;
+    vec2 collision_bottom;
+    vec2 collision_left;
+    vec2 collision_right;
     bool collision_flag;
 
     Boundary boundary;

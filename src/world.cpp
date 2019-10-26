@@ -277,14 +277,15 @@ bool World::update(float elapsed_ms)
         advanced_fish = false;
     }
 
-    if (m_is_collided)
-    {
-        m_dot.update(m_salmon.get_collision_point());
-    }
-    else
-    {
-        m_dot.update({-1.f, -1.f});
-    }
+    // if (m_is_collided)
+    // {
+    // fprintf(stderr, "%f\t%f\n", m_salmon.get_collision_point().x, m_salmon.get_collision_point().y);
+    m_dot.update(m_salmon.get_collision_point());
+    // }
+    // else
+    // {
+    //     m_dot.update({-1.f, -1.f});
+    // }
 
     m_rectangle.update(m_salmon.get_position());
 
