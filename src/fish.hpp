@@ -22,10 +22,11 @@ private:
     vec2 combined_direction;
 
     bool debug;
+    bool is_vertex_collision;
 
 public:
     // Creates all the associated render resources and default transform
-    bool init(bool m_debug);
+    bool init();
 
     // Releases all the associated resources
     void destroy();
@@ -58,4 +59,6 @@ public:
     void get_init_pos();
 
     vec2 get_close_pos(vec2 salmon_pos);
+
+    void set_is_vertex_collision(bool m_is_vertex_collision);
 };

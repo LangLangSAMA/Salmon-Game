@@ -339,6 +339,8 @@ bool World::update(float elapsed_ms)
         Fish &new_fish = m_fish.back();
 
         new_fish.set_position({screen.x + 150, 50 + m_dist(m_rng) * (screen.y - 100)});
+        new_fish.set_debug_mode(m_debug);
+        new_fish.set_is_vertex_collision(m_is_vertex_collision);
         new_fish.init_path();
 
         m_next_fish_spawn = (FISH_DELAY_MS / 2) + m_dist(m_rng) * (FISH_DELAY_MS / 2);
@@ -469,7 +471,7 @@ bool World::spawn_turtle()
 bool World::spawn_fish()
 {
     Fish fish;
-    if (fish.init(m_debug))
+    if (fish.init())
     {
         m_fish.emplace_back(fish);
         return true;
@@ -510,6 +512,15 @@ void World::on_key(GLFWwindow *, int key, int, int action, int mod)
         m_water.set_debug_mode(m_debug);
         for (auto &fish : m_fish)
             fish.set_debug_mode(m_debug);
+    }
+
+    if (action == GLFW_RELEASE && key == GLFW_KEY_Z)
+    {
+        m_is_vertex_collision = !m_is_vertex_collision;
+        if (m_is_vertex_collision)
+            fprintf(stderr, "Vertex collision check enabled for newly spawned fish\n");
+        else
+            fprintf(stderr, "Vertex collision check disabled for newly spawned fish\n");
     }
 
     if (action == GLFW_RELEASE && key == GLFW_KEY_X)

@@ -5,7 +5,7 @@
 
 Texture Fish::fish_texture;
 
-bool Fish::init(bool m_debug)
+bool Fish::init()
 {
     // Load shared texture
     if (!fish_texture.is_valid())
@@ -79,15 +79,13 @@ bool Fish::init(bool m_debug)
     combined_distance = 0.f;
     combined_direction = {1.f, 0.f};
 
-    debug = m_debug;
-
-    get_init_pos();
-
     return true;
 }
 
 void Fish::init_path()
 {
+    get_init_pos();
+
     vec2 pos = motion.position;
     for (int i = m_path.size(); i >= 0; i--)
     {
@@ -115,14 +113,21 @@ void Fish::get_init_pos()
     float x = fish_texture.width / 2;
     float y = fish_texture.height / 2;
 
-    m_init_pos.push_back({-x, 0, 1.f});
-    m_init_pos.push_back({-x / 2, -y, 1.f});
-    m_init_pos.push_back({-x / 2, y, 1.f});
-    m_init_pos.push_back({0, y, 1.f});
-    m_init_pos.push_back({x / 2, -y, 1.f});
-    m_init_pos.push_back({x / 2, y, 1.f});
-    m_init_pos.push_back({0, -y, 1.f});
-    m_init_pos.push_back({x, 0, 1.f});
+    m_init_pos.push_back({0, 0, 1.f});
+
+    if (is_vertex_collision)
+    {
+
+        m_init_pos.push_back({-x / 2, -y, 1.f});
+        m_init_pos.push_back({-x, -y, 1.f});
+        m_init_pos.push_back({-x, y, 1.f});
+        m_init_pos.push_back({-x / 2, y, 1.f});
+        m_init_pos.push_back({0, y, 1.f});
+        m_init_pos.push_back({x / 2, -y, 1.f});
+        m_init_pos.push_back({x / 2, y, 1.f});
+        m_init_pos.push_back({0, -y, 1.f});
+        m_init_pos.push_back({x, 0, 1.f});
+    }
 }
 
 vec2 Fish::get_close_pos(vec2 salmon_pos)
@@ -134,7 +139,7 @@ vec2 Fish::get_close_pos(vec2 salmon_pos)
         vec3 pos_transformed = mul(transform.out, m_init_pos[i]);
         vec2 pos = {pos_transformed.x, pos_transformed.y};
         vec2 pos_diff = sub(salmon_pos, pos);
-        float temp = dot(pos_diff, pos_diff);
+        float temp = sqrt(dot(pos_diff, pos_diff));
         if (temp < val)
         {
             val = temp;
@@ -233,14 +238,21 @@ void Fish::update_path_coordiante()
     {
         if (horizontal_it < horizontal_distance)
         {
-            pos = sub(pos, mul(horizontal_directon, 50.f));
+            if (horizontal_distance - horizontal_it < 50.f)
+            {
+                pos = sub(pos, mul(horizontal_directon, horizontal_distance - horizontal_it));
+            }
+            else
+            {
+                pos = sub(pos, mul(horizontal_directon, 50.f));
+            }
             horizontal_it += 50;
         }
         else if (vertical_it < vertical_distance)
         {
-            if (vertical_distance < 50.f)
+            if (vertical_distance - vertical_it < 50.f)
             {
-                pos = sub(pos, mul(vertical_direction, vertical_distance));
+                pos = sub(pos, mul(vertical_direction, vertical_distance - vertical_it));
             }
             else
             {
@@ -268,7 +280,7 @@ void Fish::draw(const mat3 &projection)
     {
         for (int i = 0; i < m_path.size(); i++)
         {
-            if (m_path[i].get_position().x < motion.position.x)
+            if (m_path[i].get_position().x <= motion.position.x)
             {
                 m_path[i].draw(projection);
             }
@@ -342,4 +354,9 @@ vec2 Fish::get_bounding_box() const
 void Fish::set_debug_mode(bool m_debug)
 {
     debug = m_debug;
+}
+
+void Fish::set_is_vertex_collision(bool m_is_vertex_collision)
+{
+    is_vertex_collision = m_is_vertex_collision;
 }

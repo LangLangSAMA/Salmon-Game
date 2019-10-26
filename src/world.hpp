@@ -87,6 +87,7 @@ private:
     Mix_Chunk *m_salmon_eat_sound;
 
     bool m_debug;
+    bool m_is_vertex_collision;
     bool m_is_collided;
     float m_collision_duration;
 
