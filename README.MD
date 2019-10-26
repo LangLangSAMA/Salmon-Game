@@ -22,7 +22,8 @@ The key binds to change frequency is N and M, the current frequency will be prin
 Creative Part:
 Advanced mode can be activated or deactivated by pressing X, which will change the size of the salmon to minimum, and
 increase its size by eating fish.
-Expected collision will show on the border, it depends on the salmon movement direction.
+Press V to activate or deactivate the expected collision mode, which will show the collision point on the border and it depends 
+on the salmon current movement direction.
 After pressing Z, it activates the accurate collision check mode, the new spawned fish collision is now checked by 
 using 8 different points around the fish based on its bounding box for better accuracy. The effect can only be seen when
 using debug mode, and can observe that the collision check is more accurate, which uses the vertexs around the fish instead

@@ -134,6 +134,8 @@ bool World::init(vec2 screen)
 
     m_collision_duration = 0.f;
 
+    m_is_predict = false;
+
     m_frequency = 500.f;
     m_frequency_counter = m_frequency;
     advanced_fish = false;
@@ -184,7 +186,8 @@ bool World::update(float elapsed_ms)
 
     if (m_debug)
     {
-        m_salmon.predict_collision();
+        if (m_is_predict)
+            m_salmon.predict_collision();
         if (m_is_collided)
         {
             m_salmon.reflect();
@@ -202,9 +205,7 @@ bool World::update(float elapsed_ms)
     else
     {
         if (m_salmon.collides_with_wall())
-        {
             m_salmon.reflect();
-        }
     }
 
     // Checking Salmon - Turtle collisions
@@ -424,7 +425,9 @@ void World::draw()
     m_salmon.draw(projection_2D);
 
     if (m_debug)
-        m_dot.draw(projection_2D);
+        if (m_is_collided || m_is_predict)
+            m_dot.draw(projection_2D);
+
 
     /////////////////////
     // Truely render to the screen
@@ -551,6 +554,15 @@ void World::on_key(GLFWwindow *, int key, int, int action, int mod)
         m_current_speed -= 0.1f;
     if (action == GLFW_RELEASE && (mod & GLFW_MOD_SHIFT) && key == GLFW_KEY_PERIOD)
         m_current_speed += 0.1f;
+
+    if (action == GLFW_RELEASE && key == GLFW_KEY_V)
+    {
+        m_is_predict = !m_is_predict;
+        if (m_is_predict)
+            fprintf(stderr, "Predict collision Enbaled\n");
+        else
+            fprintf(stderr, "Predict collision Disabled\n");
+    }
 
     if (action == GLFW_RELEASE && key == GLFW_KEY_N)
     {

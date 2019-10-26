@@ -91,6 +91,8 @@ private:
     bool m_is_collided;
     float m_collision_duration;
 
+    bool m_is_predict;
+
     float m_frequency;
     float m_frequency_counter;
 
