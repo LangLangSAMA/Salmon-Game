@@ -254,8 +254,8 @@ bool World::update(float elapsed_ms)
     // In a pure ECS engine we would classify entities by their bitmap tags during the update loop
     // rather than by their class.
     m_salmon.update(elapsed_ms);
-    // for (auto &turtle : m_turtles)
-    //     turtle.update(elapsed_ms * m_current_speed);
+    for (auto &turtle : m_turtles)
+        turtle.update(elapsed_ms * m_current_speed);
 
     m_frequency_counter -= elapsed_ms;
     if (m_frequency_counter < 0)
@@ -277,15 +277,7 @@ bool World::update(float elapsed_ms)
         advanced_fish = false;
     }
 
-    // if (m_is_collided)
-    // {
-    // fprintf(stderr, "%f\t%f\n", m_salmon.get_collision_point().x, m_salmon.get_collision_point().y);
     m_dot.update(m_salmon.get_collision_point());
-    // }
-    // else
-    // {
-    //     m_dot.update({-1.f, -1.f});
-    // }
 
     m_rectangle.update(m_salmon.get_position());
 
