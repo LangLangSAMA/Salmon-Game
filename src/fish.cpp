@@ -87,7 +87,7 @@ void Fish::init_path()
     get_init_pos();
 
     vec2 pos = motion.position;
-    for (int i = m_path.size(); i >= 0; i--)
+    for (int i = m_path.size() - 1; i >= 0; i--)
     {
         m_path[i].update({pos.x - 50 * i, pos.y});
     }

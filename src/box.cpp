@@ -1,7 +1,7 @@
 // Header
-#include "rectangle.hpp"
+#include "Box.hpp"
 
-bool Rectangle::init()
+bool Box::init()
 {
     // The position corresponds to the center of the texture.
     float wr = 150;
@@ -50,13 +50,13 @@ bool Rectangle::init()
     return true;
 }
 
-void Rectangle::update(vec2 pos)
+void Box::update(vec2 pos)
 {
     motion.position = pos;
 }
 
 // Releases all graphics resources
-void Rectangle::destroy()
+void Box::destroy()
 {
     glDeleteBuffers(1, &mesh.vbo);
     glDeleteBuffers(1, &mesh.ibo);
@@ -67,7 +67,7 @@ void Rectangle::destroy()
     glDeleteShader(effect.program);
 }
 
-void Rectangle::draw(const mat3 &projection)
+void Box::draw(const mat3 &projection)
 {
     // Transformation code, see Rendering and Transformation in the template specification for more info
     // Incrementally updates transformation matrix, thus ORDER IS IMPORTANT

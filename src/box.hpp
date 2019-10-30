@@ -3,7 +3,7 @@
 #include "common.hpp"
 #include <vector>
 
-class Rectangle : public Entity
+class Box : public Entity
 {
 public:
     // Creates all the associated render resources and default transform

@@ -140,7 +140,7 @@ bool World::init(vec2 screen)
     m_frequency_counter = m_frequency;
     advanced_fish = false;
 
-    return m_salmon.init() && m_water.init() && m_pebbles_emitter.init() && m_border.init() && m_rectangle.init() && m_dot.init();
+    return m_salmon.init() && m_water.init() && m_pebbles_emitter.init() && m_border.init() && m_box.init() && m_dot.init();
 }
 
 // Releases all the associated resources
@@ -167,7 +167,7 @@ void World::destroy()
     m_fish.clear();
     m_border.destroy();
     m_dot.destroy();
-    m_rectangle.destroy();
+    m_box.destroy();
     glfwDestroyWindow(m_window);
 }
 
@@ -280,7 +280,7 @@ bool World::update(float elapsed_ms)
 
     m_dot.update(m_salmon.get_collision_point());
 
-    m_rectangle.update(m_salmon.get_position());
+    m_box.update(m_salmon.get_position());
 
     // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     // HANDLE PEBBLE SPAWN/UPDATES HERE
@@ -415,7 +415,7 @@ void World::draw()
     // Drawing entities
     if (m_debug)
     {
-        m_rectangle.draw(projection_2D);
+        m_box.draw(projection_2D);
         m_border.draw(projection_2D);
     }
     for (auto &turtle : m_turtles)

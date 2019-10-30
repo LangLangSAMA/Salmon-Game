@@ -7,7 +7,7 @@
 #include "fish.hpp"
 #include "water.hpp"
 #include "pebbles.hpp"
-#include "rectangle.hpp"
+#include "box.hpp"
 #include "border.hpp"
 #include "dot.hpp"
 
@@ -71,7 +71,7 @@ private:
 
     // Game entities
     Salmon m_salmon;
-    Rectangle m_rectangle;
+    Box m_box;
     Border m_border;
     Dot m_dot;
     std::vector<Turtle> m_turtles;
