@@ -80,7 +80,7 @@ void Pebbles::update(float ms)
     {
         float x = pebble_it->position.x;
         float y = pebble_it->position.y;
-        if (x < -10.f || x > 1300.f || y < -10.f || y > 900.f)
+        if (x < -10.f || x > 1300.f || y > 900.f)
         {
             pebble_it = m_pebbles.erase(pebble_it);
         }
@@ -117,6 +117,52 @@ void Pebbles::collides_with()
     // Make sure to handle both collisions between pebbles
     // and collisions between pebbles and salmon/fish/turtles.
     // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    for (auto &pebble : m_pebbles)
+    {
+        // collision check for pebble
+    }
+}
+
+void Pebbles::collides_with(const Turtle &turtle)
+{
+    // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    // HANDLE PEBBLE COLLISIONS HERE
+    // You will need to write additional functions from scratch.
+    // Make sure to handle both collisions between pebbles
+    // and collisions between pebbles and salmon/fish/turtles.
+    // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    for (auto &pebble : m_pebbles)
+    {
+        // collision check for turtle
+    }
+}
+
+void Pebbles::collides_with(const Fish &fish)
+{
+    // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    // HANDLE PEBBLE COLLISIONS HERE
+    // You will need to write additional functions from scratch.
+    // Make sure to handle both collisions between pebbles
+    // and collisions between pebbles and salmon/fish/turtles.
+    // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    for (auto &pebble : m_pebbles)
+    {
+        // collision check for fish
+    }
+}
+
+void Pebbles::collides_with(const Salmon &salmon)
+{
+    // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    // HANDLE PEBBLE COLLISIONS HERE
+    // You will need to write additional functions from scratch.
+    // Make sure to handle both collisions between pebbles
+    // and collisions between pebbles and salmon/fish/turtles.
+    // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    for (auto &pebble : m_pebbles)
+    {
+        // collision check for salmon
+    }
 }
 
 // Draw pebbles using instancing

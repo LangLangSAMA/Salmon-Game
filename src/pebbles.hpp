@@ -3,6 +3,9 @@
 #include <vector>
 
 #include "common.hpp"
+#include "fish.hpp"
+#include "salmon.hpp"
+#include "turtle.hpp"
 
 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 // DON'T WORRY ABOUT THIS CLASS UNTIL ASSIGNMENT 3
@@ -42,6 +45,9 @@ public:
 
     // Trigger collision checks
     void collides_with();
+    void collides_with(const Salmon &salmon);
+    void collides_with(const Fish &fish);
+    void collides_with(const Turtle &turtle);
 
 private:
     GLuint m_instance_vbo;         // vbo for instancing pebbles

@@ -189,8 +189,8 @@ bool World::update(float elapsed_ms)
     if (m_pebble_period < 0.f)
     {
         float angle = m_salmon.get_rotation();
-        float v_x = cosf(angle) * m_dist(m_rng) * 10;
-        float v_y = sinf(angle) * m_dist(m_rng) * 10;
+        float v_x = cosf(angle) * 2;
+        float v_y = sinf(angle) * 2 + (m_dist(m_rng) - 0.5f) * 4;
         vec2 vel = {v_x, v_y};
         float rad = m_dist(m_rng) * 5 + 10.f;
         vec2 pos = {m_salmon.get_position().x + cosf(angle) * 75, m_salmon.get_position().y + sinf(angle) * 75};
@@ -265,6 +265,17 @@ bool World::update(float elapsed_ms)
     // HANDLE PEBBLE COLLISIONS HERE
     // DON'T WORRY ABOUT THIS UNTIL ASSIGNMENT 3
     // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    for (auto &turtle : m_turtles)
+    {
+        m_pebbles_emitter.collides_with(turtle);
+    }
+
+    for (auto &fish : m_fish)
+    {
+        m_pebbles_emitter.collides_with(fish);
+    }
+    m_pebbles_emitter.collides_with(m_salmon);
+    m_pebbles_emitter.collides_with();
 
     // Updating all entities, making the turtle and fish
     // faster based on current.
