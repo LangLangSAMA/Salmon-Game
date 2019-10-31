@@ -38,7 +38,7 @@ public:
     void draw(const mat3 &projection) override;
 
     // Spawn new pebble
-    void spawn_pebble(vec2 position);
+    void spawn_pebble(vec2 position, vec2 velocity, float radius);
 
     // Trigger collision checks
     void collides_with();

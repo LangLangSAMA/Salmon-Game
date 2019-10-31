@@ -96,6 +96,8 @@ private:
     float m_frequency;
     float m_frequency_counter;
 
+    float m_pebble_period;
+
     bool advanced_fish;
 
     // C++ rng

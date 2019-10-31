@@ -11,12 +11,13 @@
 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 static const int MAX_PEBBLES = 25;
+static const float GRAVITY = 0.05f;
 constexpr int NUM_SEGMENTS = 12;
 
 bool Pebbles::init()
 {
     std::vector<GLfloat> screen_vertex_buffer_data;
-    constexpr float z = -0.1;
+    constexpr float z = -0.1f;
 
     for (int i = 0; i < NUM_SEGMENTS; i++)
     {
@@ -74,13 +75,38 @@ void Pebbles::update(float ms)
     // You will need to handle both the motion of pebbles
     // and the removal of dead pebbles.
     // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    auto pebble_it = m_pebbles.begin();
+    while (pebble_it != m_pebbles.end())
+    {
+        float x = pebble_it->position.x;
+        float y = pebble_it->position.y;
+        if (x < -10.f || x > 1300.f || y < -10.f || y > 900.f)
+        {
+            pebble_it = m_pebbles.erase(pebble_it);
+        }
+        else
+        {
+            pebble_it->velocity.y += GRAVITY * ms * 0.1f;
+            pebble_it->position = add(pebble_it->position, pebble_it->velocity);
+            ++pebble_it;
+        }
+    }
 }
 
-void Pebbles::spawn_pebble(vec2 position)
+void Pebbles::spawn_pebble(vec2 position, vec2 velocity, float radius)
 {
     // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     // HANDLE PEBBLE SPAWNING HERE
     // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    if (m_pebbles.size() <= MAX_PEBBLES)
+    {
+        Pebble pebble;
+        pebble.radius = radius;
+        pebble.position = position;
+        pebble.velocity = velocity;
+
+        m_pebbles.emplace_back(pebble);
+    }
 }
 
 void Pebbles::collides_with()

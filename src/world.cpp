@@ -140,6 +140,8 @@ bool World::init(vec2 screen)
     m_frequency_counter = m_frequency;
     advanced_fish = false;
 
+    m_pebble_period = 250.f;
+
     return m_salmon.init() && m_water.init() && m_pebbles_emitter.init() && m_border.init() && m_box.init() && m_dot.init();
 }
 
@@ -183,6 +185,20 @@ bool World::update(float elapsed_ms)
     int w, h;
     glfwGetFramebufferSize(m_window, &w, &h);
     vec2 screen = {(float)w / m_screen_scale, (float)h / m_screen_scale};
+
+    if (m_pebble_period < 0.f)
+    {
+        float angle = m_salmon.get_rotation();
+        float v_x = cosf(angle) * m_dist(m_rng) * 10;
+        float v_y = sinf(angle) * m_dist(m_rng) * 10;
+        vec2 vel = {v_x, v_y};
+        float rad = m_dist(m_rng) * 5 + 10.f;
+        vec2 pos = {m_salmon.get_position().x + cosf(angle) * 75, m_salmon.get_position().y + sinf(angle) * 75};
+        m_pebbles_emitter.spawn_pebble(pos, vel, rad);
+        m_pebble_period = 250.f;
+    }
+
+    m_pebble_period -= elapsed_ms;
 
     if (m_debug)
     {
@@ -286,6 +302,7 @@ bool World::update(float elapsed_ms)
     // HANDLE PEBBLE SPAWN/UPDATES HERE
     // DON'T WORRY ABOUT THIS UNTIL ASSIGNMENT 3
     // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    m_pebbles_emitter.update(elapsed_ms);
 
     // Removing out of screen turtles
     auto turtle_it = m_turtles.begin();
@@ -422,12 +439,12 @@ void World::draw()
         turtle.draw(projection_2D);
     for (auto &fish : m_fish)
         fish.draw(projection_2D);
+    m_pebbles_emitter.draw(projection_2D);
     m_salmon.draw(projection_2D);
 
     if (m_debug)
         if (m_is_collided || m_is_predict)
             m_dot.draw(projection_2D);
-
 
     /////////////////////
     // Truely render to the screen
@@ -554,6 +571,17 @@ void World::on_key(GLFWwindow *, int key, int, int action, int mod)
         m_current_speed -= 0.1f;
     if (action == GLFW_RELEASE && (mod & GLFW_MOD_SHIFT) && key == GLFW_KEY_PERIOD)
         m_current_speed += 0.1f;
+
+    if (action == GLFW_RELEASE && key == GLFW_KEY_P)
+    {
+        float angle = m_salmon.get_rotation();
+        float v_x = cosf(angle) * m_dist(m_rng) * 10;
+        float v_y = sinf(angle) * m_dist(m_rng) * 10;
+        vec2 vel = {v_x, v_y};
+        float rad = m_dist(m_rng) * 5 + 10.f;
+        vec2 pos = {m_salmon.get_position().x + cosf(angle) * 75, m_salmon.get_position().y + sinf(angle) * 75};
+        m_pebbles_emitter.spawn_pebble(pos, vel, rad);
+    }
 
     if (action == GLFW_RELEASE && key == GLFW_KEY_V)
     {

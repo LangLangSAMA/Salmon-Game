@@ -549,3 +549,8 @@ vec2 Salmon::get_collision_point()
 {
     return collision_point;
 }
+
+float Salmon::get_rotation()
+{
+    return motion.radians;
+}
