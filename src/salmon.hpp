@@ -70,6 +70,10 @@ public:
 
     vec2 get_collision_point();
 
+    void computeBoundingBox();
+
+    vec2 get_bounding_box() const;
+
     // booleans determine salmon movement
     bool move_up;
     bool move_down;
@@ -89,6 +93,8 @@ private:
     vec2 collision_left;
     vec2 collision_right;
     bool collision_flag;
+
+    vec2 bounding_box;
 
     Boundary boundary;
 

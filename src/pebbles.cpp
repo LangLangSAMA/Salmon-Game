@@ -109,7 +109,7 @@ void Pebbles::spawn_pebble(vec2 position, vec2 velocity, float radius)
     }
 }
 
-void Pebbles::collides_with()
+void Pebbles::collides_with_pebbles()
 {
     // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     // HANDLE PEBBLE COLLISIONS HERE
@@ -117,9 +117,35 @@ void Pebbles::collides_with()
     // Make sure to handle both collisions between pebbles
     // and collisions between pebbles and salmon/fish/turtles.
     // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    for (auto &pebble : m_pebbles)
+    int i = 0;
+    for (auto &p1 : m_pebbles)
     {
-        // collision check for pebble
+        int j = 0;
+        for (auto &p2 : m_pebbles)
+        {
+            if (i == j)
+                continue;
+
+            float x_diff = p1.position.x - p2.position.x;
+            float y_diff = p1.position.y - p2.position.y;
+
+            float d = len({x_diff, y_diff});
+
+            if (d < p1.radius + p2.radius)
+            {
+                float m1 = p1.radius;
+                float m2 = p2.radius;
+
+                vec2 p1_init_v = p1.velocity;
+                vec2 p2_init_v = p2.velocity;
+
+                p1.velocity = add(mul(p1_init_v, (m1 - m2) / (m1 + m2)), mul(p2_init_v, 2.f * m2 / (m1 + m2)));
+                p2.velocity = add(mul(p2_init_v, (m2 - m1) / (m1 + m2)), mul(p1_init_v, 2.f * m1 / (m1 + m2)));
+                break;
+            }
+            j++;
+        }
+        i++;
     }
 }
 
@@ -134,6 +160,43 @@ void Pebbles::collides_with(const Turtle &turtle)
     for (auto &pebble : m_pebbles)
     {
         // collision check for turtle
+        vec2 t_pos = turtle.get_position();
+        vec2 t_bbox = turtle.get_bounding_box();
+
+        float t_left = t_pos.x - t_bbox.x * 0.5f;
+        float t_right = t_pos.x + t_bbox.x * 0.5f;
+        float t_top = t_pos.y - t_bbox.y * 0.5f;
+        float t_bottom = t_pos.y + t_bbox.y * 0.5f;
+
+        vec2 p_pos = pebble.position;
+        float p_left = p_pos.x - pebble.radius;
+        float p_right = p_pos.x + pebble.radius;
+        float p_top = p_pos.y - pebble.radius;
+        float p_bottom = p_pos.y + pebble.radius;
+
+        if (p_pos.x >= t_left && p_pos.x <= t_right)
+        {
+            if (p_pos.y < t_top && p_bottom >= t_top)
+            {
+                pebble.velocity.y = -fabs(pebble.velocity.y);
+            }
+            if (p_pos.y > t_bottom && p_top <= t_bottom)
+            {
+                pebble.velocity.y = fabs(pebble.velocity.y);
+            }
+        }
+
+        if (p_pos.y >= t_top && p_pos.y <= t_bottom)
+        {
+            if (p_pos.x < t_left && p_right >= t_left)
+            {
+                pebble.velocity.x = -fabs(pebble.velocity.x);
+            }
+            if (p_pos.x > t_right && p_left <= t_right)
+            {
+                pebble.velocity.x = fabs(pebble.velocity.x);
+            }
+        }
     }
 }
 
@@ -147,7 +210,44 @@ void Pebbles::collides_with(const Fish &fish)
     // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     for (auto &pebble : m_pebbles)
     {
-        // collision check for fish
+        // collision check for turtle
+        vec2 f_pos = fish.get_position();
+        vec2 f_bbox = fish.get_bounding_box();
+
+        float f_left = f_pos.x - f_bbox.x * 0.5f;
+        float f_right = f_pos.x + f_bbox.x * 0.5f;
+        float f_top = f_pos.y - f_bbox.y * 0.5f;
+        float f_bottom = f_pos.y + f_bbox.y * 0.5f;
+
+        vec2 p_pos = pebble.position;
+        float p_left = p_pos.x - pebble.radius;
+        float p_right = p_pos.x + pebble.radius;
+        float p_top = p_pos.y - pebble.radius;
+        float p_bottom = p_pos.y + pebble.radius;
+
+        if (p_pos.x >= f_left && p_pos.x <= f_right)
+        {
+            if (p_pos.y < f_top && p_bottom >= f_top)
+            {
+                pebble.velocity.y = -fabs(pebble.velocity.y);
+            }
+            if (p_pos.y > f_bottom && p_top <= f_bottom)
+            {
+                pebble.velocity.y = fabs(pebble.velocity.y);
+            }
+        }
+
+        if (p_pos.y >= f_top && p_pos.y <= f_bottom)
+        {
+            if (p_pos.x < f_left && p_right >= f_left)
+            {
+                pebble.velocity.x = -fabs(pebble.velocity.x);
+            }
+            if (p_pos.x > f_right && p_left <= f_right)
+            {
+                pebble.velocity.x = fabs(pebble.velocity.x);
+            }
+        }
     }
 }
 
@@ -161,7 +261,44 @@ void Pebbles::collides_with(const Salmon &salmon)
     // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     for (auto &pebble : m_pebbles)
     {
-        // collision check for salmon
+        // collision check for turtle
+        vec2 s_pos = salmon.get_position();
+        vec2 s_bbox = salmon.get_bounding_box();
+
+        float s_left = s_pos.x - s_bbox.x * 0.5f;
+        float s_right = s_pos.x + s_bbox.x * 0.5f;
+        float s_top = s_pos.y - s_bbox.y * 0.5f;
+        float s_bottom = s_pos.y + s_bbox.y * 0.5f;
+
+        vec2 p_pos = pebble.position;
+        float p_left = p_pos.x - pebble.radius;
+        float p_right = p_pos.x + pebble.radius;
+        float p_top = p_pos.y - pebble.radius;
+        float p_bottom = p_pos.y + pebble.radius;
+
+        if (p_pos.x >= s_left && p_pos.x <= s_right)
+        {
+            if (p_pos.y < s_top && p_bottom >= s_top)
+            {
+                pebble.velocity.y = -fabs(pebble.velocity.y);
+            }
+            if (p_pos.y > s_bottom && p_top <= s_bottom)
+            {
+                pebble.velocity.y = fabs(pebble.velocity.y);
+            }
+        }
+
+        if (p_pos.y >= s_top && p_pos.y <= s_bottom)
+        {
+            if (p_pos.x < s_left && p_right >= s_left)
+            {
+                pebble.velocity.x = -fabs(pebble.velocity.x);
+            }
+            if (p_pos.x > s_right && p_left <= s_right)
+            {
+                pebble.velocity.x = fabs(pebble.velocity.x);
+            }
+        }
     }
 }
 

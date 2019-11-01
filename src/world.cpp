@@ -140,7 +140,7 @@ bool World::init(vec2 screen)
     m_frequency_counter = m_frequency;
     advanced_fish = false;
 
-    m_pebble_period = 250.f;
+    m_pebble_period = 100.f;
 
     return m_salmon.init() && m_water.init() && m_pebbles_emitter.init() && m_border.init() && m_box.init() && m_dot.init();
 }
@@ -189,8 +189,8 @@ bool World::update(float elapsed_ms)
     if (m_pebble_period < 0.f)
     {
         float angle = m_salmon.get_rotation();
-        float v_x = cosf(angle) * 2;
-        float v_y = sinf(angle) * 2 + (m_dist(m_rng) - 0.5f) * 4;
+        float v_x = cosf(angle) * 3;
+        float v_y = sinf(angle) * 3 + (m_dist(m_rng) - 0.5f) * 4;
         vec2 vel = {v_x, v_y};
         float rad = m_dist(m_rng) * 5 + 10.f;
         vec2 pos = {m_salmon.get_position().x + cosf(angle) * 75, m_salmon.get_position().y + sinf(angle) * 75};
@@ -275,7 +275,7 @@ bool World::update(float elapsed_ms)
         m_pebbles_emitter.collides_with(fish);
     }
     m_pebbles_emitter.collides_with(m_salmon);
-    m_pebbles_emitter.collides_with();
+    m_pebbles_emitter.collides_with_pebbles();
 
     // Updating all entities, making the turtle and fish
     // faster based on current.
@@ -585,12 +585,9 @@ void World::on_key(GLFWwindow *, int key, int, int action, int mod)
 
     if (action == GLFW_RELEASE && key == GLFW_KEY_P)
     {
-        float angle = m_salmon.get_rotation();
-        float v_x = cosf(angle) * m_dist(m_rng) * 10;
-        float v_y = sinf(angle) * m_dist(m_rng) * 10;
-        vec2 vel = {v_x, v_y};
+        vec2 vel = {4.f, -3.f};
         float rad = m_dist(m_rng) * 5 + 10.f;
-        vec2 pos = {m_salmon.get_position().x + cosf(angle) * 75, m_salmon.get_position().y + sinf(angle) * 75};
+        vec2 pos = {200.f, 200.f};
         m_pebbles_emitter.spawn_pebble(pos, vel, rad);
     }
 

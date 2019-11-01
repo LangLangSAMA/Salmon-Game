@@ -104,6 +104,8 @@ bool Salmon::init()
 
     vec3 collision_point = {-1.f, -1.f, -1.f};
 
+    computeBoundingBox();
+
     return true;
 }
 
@@ -553,4 +555,45 @@ vec2 Salmon::get_collision_point()
 float Salmon::get_rotation()
 {
     return motion.radians;
+}
+
+void Salmon::computeBoundingBox()
+{
+    float x_left = 99999.f;
+    float x_right = -99999.f;
+    float y_top = 99999.f;
+    float y_bottom = -99999.f;
+    for (size_t i = 0; i < m_vertices.size(); i++)
+    {
+        Vertex vertex;
+        vertex = m_vertices[i];
+        vec3 point = {vertex.position.x, vertex.position.y, 1};
+        float x = point.x;
+        float y = point.y;
+        if (x < x_left)
+        {
+            x_left = x;
+        }
+        if (x > x_right)
+        {
+            x_right = x;
+        }
+        if (y < y_top)
+        {
+            y_top = y;
+        }
+        if (y > y_bottom)
+        {
+            y_bottom = y;
+        }
+    }
+
+    bounding_box = {x_right - x_left, y_bottom - y_top};
+}
+
+vec2 Salmon::get_bounding_box() const
+{
+    // Returns the local bounding coordinates scaled by the current size of the turtle
+    // fabs is to avoid negative scale due to the facing direction.
+    return {bounding_box.x * fabs(physics.scale.x), bounding_box.y * fabs(physics.scale.y)};
 }

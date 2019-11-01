@@ -44,7 +44,7 @@ public:
     void spawn_pebble(vec2 position, vec2 velocity, float radius);
 
     // Trigger collision checks
-    void collides_with();
+    void collides_with_pebbles();
     void collides_with(const Salmon &salmon);
     void collides_with(const Fish &fish);
     void collides_with(const Turtle &turtle);
