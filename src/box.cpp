@@ -1,5 +1,5 @@
 // Header
-#include "Box.hpp"
+#include "box.hpp"
 
 bool Box::init()
 {

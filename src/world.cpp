@@ -189,11 +189,11 @@ bool World::update(float elapsed_ms)
     if (m_pebble_period < 0.f)
     {
         float angle = m_salmon.get_rotation();
-        float v_x = cosf(angle) * 3;
-        float v_y = sinf(angle) * 3 + (m_dist(m_rng) - 0.5f) * 4;
+        float v_x = cosf(angle) * 4.f;
+        float v_y = sinf(angle) * 4.f + (m_dist(m_rng) - 0.5f) * 4.f;
         vec2 vel = {v_x, v_y};
-        float rad = m_dist(m_rng) * 5 + 10.f;
-        vec2 pos = {m_salmon.get_position().x + cosf(angle) * 75, m_salmon.get_position().y + sinf(angle) * 75};
+        float rad = m_dist(m_rng) * 5.f + 10.f;
+        vec2 pos = {m_salmon.get_position().x + cosf(angle) * 75.f, m_salmon.get_position().y + sinf(angle) * 75.f};
         m_pebbles_emitter.spawn_pebble(pos, vel, rad);
         m_pebble_period = 250.f;
     }
