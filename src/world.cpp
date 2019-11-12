@@ -140,7 +140,9 @@ bool World::init(vec2 screen)
     m_frequency_counter = m_frequency;
     advanced_fish = false;
 
-    m_pebble_period = 100.f;
+    m_pebble_period = 500.f;
+
+    water_effect = false;
 
     return m_salmon.init() && m_water.init() && m_pebbles_emitter.init() && m_border.init() && m_box.init() && m_dot.init();
 }
@@ -195,7 +197,7 @@ bool World::update(float elapsed_ms)
         float rad = m_dist(m_rng) * 5.f + 10.f;
         vec2 pos = {m_salmon.get_position().x + cosf(angle) * 75.f, m_salmon.get_position().y + sinf(angle) * 75.f};
         m_pebbles_emitter.spawn_pebble(pos, vel, rad);
-        m_pebble_period = 250.f;
+        m_pebble_period = 500.f;
     }
 
     m_pebble_period -= elapsed_ms;
@@ -313,7 +315,7 @@ bool World::update(float elapsed_ms)
     // HANDLE PEBBLE SPAWN/UPDATES HERE
     // DON'T WORRY ABOUT THIS UNTIL ASSIGNMENT 3
     // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    m_pebbles_emitter.update(elapsed_ms);
+    m_pebbles_emitter.update(elapsed_ms, m_current_speed, water_effect);
 
     // Removing out of screen turtles
     auto turtle_it = m_turtles.begin();
@@ -613,6 +615,11 @@ void World::on_key(GLFWwindow *, int key, int, int action, int mod)
     {
         m_frequency += 100.0f;
         fprintf(stderr, "The current reaction time is %f\n", m_frequency);
+    }
+
+    if (action == GLFW_RELEASE && key == GLFW_KEY_T)
+    {
+        water_effect = !water_effect;
     }
 
     m_current_speed = fmax(0.f, m_current_speed);

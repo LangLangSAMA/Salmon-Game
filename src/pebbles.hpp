@@ -34,7 +34,7 @@ public:
 
     // Updates all pebbles
     // ms represents the number of milliseconds elapsed from the previous update() call
-    void update(float ms);
+    void update(float ms, float m_current_speed, bool water_effect);
 
     // Renders the pebbles
     // projection is the 2D orthographic projection matrix

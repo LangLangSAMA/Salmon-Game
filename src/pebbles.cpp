@@ -68,7 +68,7 @@ void Pebbles::destroy()
     m_pebbles.clear();
 }
 
-void Pebbles::update(float ms)
+void Pebbles::update(float ms, float m_current_speed, bool water_effect)
 {
     // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     // HANDLE PEBBLE UPDATES HERE
@@ -80,12 +80,18 @@ void Pebbles::update(float ms)
     {
         float x = pebble_it->position.x;
         float y = pebble_it->position.y;
-        if (x < -10.f || x > 1300.f || y > 900.f)
+        // if (x < -10.f || x > 2000.f || y > 900.f)
+        if (x < -10.f || y > 900.f)
         {
             pebble_it = m_pebbles.erase(pebble_it);
         }
         else
         {
+            float mass = pebble_it->radius;
+            if (water_effect)
+            {
+                pebble_it->velocity.x -= m_current_speed / mass * ms * 0.05f;
+            }
             pebble_it->velocity.y += GRAVITY * ms * 0.1f;
             pebble_it->position = add(pebble_it->position, pebble_it->velocity);
             ++pebble_it;
