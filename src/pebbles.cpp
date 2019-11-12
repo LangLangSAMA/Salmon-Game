@@ -133,6 +133,16 @@ void Pebbles::collides_with_pebbles()
 
             if (d < p1.radius + p2.radius)
             {
+                // for p1
+                float p1_dist = d - p1.radius;
+                p1.position.x = p1_dist * x_diff / d;
+                p1.position.y = p1_dist * y_diff / d;
+                // for p2
+                float p2_dist = d - p2.radius;
+                p2.position.x = p2_dist * x_diff / d;
+                p2.position.y = p2_dist * y_diff / d;
+
+                // for collision
                 float m1 = p1.radius;
                 float m2 = p2.radius;
 
