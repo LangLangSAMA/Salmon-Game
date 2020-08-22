@@ -53,7 +53,7 @@ bool Water::init()
 // Releases all graphics resources
 void Water::destroy()
 {
-    glDeleteBuffers(1, &mesh.vbo);
+    glDeleteVertexArrays(1, &mesh.vbo);
 
     glDeleteShader(effect.vertex);
     glDeleteShader(effect.fragment);

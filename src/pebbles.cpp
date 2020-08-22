@@ -58,7 +58,7 @@ bool Pebbles::init()
 // Releases all graphics resources
 void Pebbles::destroy()
 {
-    glDeleteBuffers(1, &mesh.vbo);
+    glDeleteVertexArrays(1, &mesh.vbo);
     glDeleteBuffers(1, &m_instance_vbo);
 
     glDeleteShader(effect.vertex);

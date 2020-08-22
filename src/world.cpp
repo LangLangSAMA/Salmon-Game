@@ -16,7 +16,7 @@
 // Same as static in c, local to compilation unit
 namespace
 {
-const size_t MAX_TURTLES = 15;
+const size_t MAX_TURTLES = 1;
 const size_t MAX_FISH = 3;
 const size_t TURTLE_DELAY_MS = 2000;
 const size_t FISH_DELAY_MS = 5000;
